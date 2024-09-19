@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "178665494830",
+    "project_id": "todocreater",
+    "storage_bucket": "todocreater.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178665494830:android:611368abc9a4f2b58402bf",
+        "android_client_info": {
+          "package_name": "com.ltss.pocketmoney.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178665494830-flij396kj9qqm9eedqlbsefp3knhjja7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtywVCGrGIjqfkINcHSZQ3HU98L6-ZTQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178665494830-flij396kj9qqm9eedqlbsefp3knhjja7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
