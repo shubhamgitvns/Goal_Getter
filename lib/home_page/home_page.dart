@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../app_them.dart';
 import '../utilittes.dart';
+import 'add_task.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -87,21 +88,17 @@ class _HomePageState extends State<HomePage> {
                                 Text("Hello,",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,fontSize: 35,fontStyle: FontStyle.italic),),
                               ],
                             ),
+                            const SizedBox(height: 20,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 SizedBox(
-                                    width:200,
+                                    width:300,
                                     child: Text("${user?.displayName}",style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
-
-                                const CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: AssetImage("images/intro.png"),
-                                )
 
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(height: 20,),
                             SizedBox(
                                 width:300,
                                 child: Center(child: Text("${user?.email}",style: TextStyle(fontWeight: FontWeight.w500,),))),

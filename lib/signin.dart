@@ -6,6 +6,8 @@ import 'dart:convert' show json;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:todocreater/home_page/home_page.dart';
 import 'package:todocreater/utilittes.dart';
 
 
@@ -168,14 +170,14 @@ class _SignInDemoState extends State<SignInDemo> {
                 child: Center(child: Text("Continue >>",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)),
               ),
               onTap:() {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     type: PageTransitionType.topToBottom,
-                //     isIos: true,
-                //     child: Bottomnavigation(index: 0),
-                //   ),
-                //);
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.topToBottom,
+                    isIos: true,
+                    child: HomePage(),
+                  ),
+                );
               },
             )
           ],

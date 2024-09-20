@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todocreater/home_page/home_page.dart';
 import 'package:todocreater/intropage/todo_list_page.dart';
 
 import '../app_them.dart';
@@ -59,38 +60,29 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: App_Text.button_text,),),
                 ),
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      isIos: true,
-                      child: const To_Do_List_Intro(),
-                      // FingerPrint(),
-                    ),
-                  );
 
-                  // if(Googel_Signin.currentUser == null) {
-                  //   Navigator.push(
-                  //     context,
-                  //     PageTransition(
-                  //       type: PageTransitionType.rightToLeft,
-                  //       isIos: true,
-                  //       child: const To_Do_List_Intro(),
-                  //       // FingerPrint(),
-                  //     ),
-                  //   );
-                  // }
-                  // else{
-                  //   Navigator.push(
-                  //     context,
-                  //     PageTransition(
-                  //       type: PageTransitionType.rightToLeft,
-                  //       isIos: true,
-                  //       child:  Bottomnavigation(index: 0,),
-                  //       // FingerPrint(),
-                  //     ),
-                  //   );
-                  // }
+                  if(Googel_Signin.currentUser == null) {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        isIos: true,
+                        child: const To_Do_List_Intro(),
+                        // FingerPrint(),
+                      ),
+                    );
+                  }
+                  else{
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        isIos: true,
+                        child:  HomePage(),
+                        // FingerPrint(),
+                      ),
+                    );
+                  }
                 },
               )
             ],
