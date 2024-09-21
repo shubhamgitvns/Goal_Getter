@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../app_them.dart';
 import '../utilittes.dart';
@@ -22,24 +23,22 @@ class _HomePageState extends State<HomePage> {
   final messaging = FirebaseMessaging.instance;
   String _lastMessage = "";
   // notification ke liye hh
-  //final _messageStreamController = BehaviorSubject<RemoteMessage>();
-
+  final _messageStreamController = BehaviorSubject<RemoteMessage>();
 
   _HomePageState() {
-    // notification ke liye hh
 
-    // _messageStreamController.listen((message) {
-    //   setState(() {
-    //     if (message.notification != null) {
-    //       _lastMessage = 'Received a notification message:'
-    //           '\nTitle=${message.notification?.title},'
-    //           '\nBody=${message.notification?.body},'
-    //           '\nData=${message.data}';
-    //     } else {
-    //       _lastMessage = 'Received a data message: ${message.data}';
-    //     }
-    //   });
-    // });
+    _messageStreamController.listen((message) {
+      setState(() {
+        if (message.notification != null) {
+          _lastMessage = 'Received a notification message:'
+              '\nTitle=${message.notification?.title},'
+              '\nBody=${message.notification?.body},'
+              '\nData=${message.data}';
+        } else {
+          _lastMessage = 'Received a data message: ${message.data}';
+        }
+      });
+    });
   }
 
   //print("Checking current user  $user");
@@ -141,14 +140,14 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () async {
 
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    isIos: true,
-                    child: const Add_TaskPage(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   PageTransition(
+                //     type: PageTransitionType.bottomToTop,
+                //     isIos: true,
+                //     child: const Add_TaskPage(),
+                //   ),
+                // );
               },
             ),
           )
