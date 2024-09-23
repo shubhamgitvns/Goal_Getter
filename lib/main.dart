@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:alarm/alarm.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,12 +18,18 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async {
 }
 
 Future<void> main() async {
+  var intValue = Random().nextInt(10);
+  print("njgfbhfbvfsdbvdfjvbsdfhjvbfhjv");
+  print(intValue);
+  print("njgfbhfbvfsdbvdfjvbsdfhjvbfhjv");
+
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await Alarm.init();
     NotificationServices().requestNotificationPermission();
     NotificationServices().InitNotification();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

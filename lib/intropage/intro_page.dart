@@ -4,6 +4,7 @@ import 'package:todocreater/home_page/home_page.dart';
 import 'package:todocreater/intropage/todo_list_page.dart';
 
 import '../app_them.dart';
+import '../home_page/bottombar/bottombar.dart';
 import '../signin.dart';
 import '../utilittes.dart';
 
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       PageTransition(
                         type: PageTransitionType.rightToLeft,
                         isIos: true,
-                        child:  HomePage(),
+                        child: Bottomnavigation(index: 0,),
                         // FingerPrint(),
                       ),
                     );

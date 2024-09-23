@@ -10,6 +10,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:todocreater/home_page/home_page.dart';
 import 'package:todocreater/utilittes.dart';
 
+import 'home_page/bottombar/bottombar.dart';
+
 
 const List<String> scopes =Googel_Signin.scopes;
 
@@ -175,7 +177,7 @@ class _SignInDemoState extends State<SignInDemo> {
                   PageTransition(
                     type: PageTransitionType.topToBottom,
                     isIos: true,
-                    child: HomePage(),
+                    child:Bottomnavigation(index: 0,),
                   ),
                 );
               },
