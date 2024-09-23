@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -158,10 +160,10 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(15.0),
                     child: Category(),
                   ),
-                  Text('Last message from Firebase Messaging:',
-                      style: Theme.of(context).textTheme.titleLarge),
-                  Text(_lastMessage, style: Theme.of(context).textTheme.bodyLarge),
-                  SelectableText(DataGet.token, style: Theme.of(context).textTheme.bodyLarge),
+                  // Text('Last message from Firebase Messaging:',
+                  //     style: Theme.of(context).textTheme.titleLarge),
+                  // Text(_lastMessage, style: Theme.of(context).textTheme.bodyLarge),
+                  // SelectableText(DataGet.token, style: Theme.of(context).textTheme.bodyLarge),
 
 
                 ],
@@ -185,6 +187,12 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () async {
                 // _scheduleNotification();
+                setState(() {
+                  var intValue = Random().nextInt(10);
+                  print(intValue);
+                  App_Text.id = intValue;
+                  print(App_Text.id);
+                });
 
                 Navigator.push(
                   context,

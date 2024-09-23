@@ -11,6 +11,7 @@ class TaskList extends StatefulWidget {
   // TaskList({super.key});
   dynamic value;
   String id = "";
+   String ID = "";
   String title = "";
   String sub_title = "";
   String time = "";
@@ -26,7 +27,8 @@ class TaskList extends StatefulWidget {
       dynamic value,
       ) {
     this.value = value;
-    this.id = value.id;
+     this.ID = value.get("ID").toString();
+     this.id = value.id;
     this.title = value.get("title").toString();
     this.sub_title = value.get("sub_title").toString();
     this.time = value.get("time").toString();
@@ -150,6 +152,7 @@ class _TaskListState extends State<TaskList> {
                                       getColor),
                                   value: isChecked,
                                   onChanged: (bool? value) {
+                                    print(widget.id);
                                     setState((){
                                       isChecked = value!;
                                       App_Text.done = isChecked;
@@ -316,7 +319,8 @@ class _TaskListState extends State<TaskList> {
                                     "${widget.date}",
                                     "${widget.month}",
                                     "${widget.year}",
-                                    "${widget.id}"),
+                                    "${widget.id}",
+                                    "${widget.ID}"),
                               ),
                             );
                           },

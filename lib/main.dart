@@ -18,10 +18,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async {
 }
 
 Future<void> main() async {
-  var intValue = Random().nextInt(10);
-  print("njgfbhfbvfsdbvdfjvbsdfhjvbfhjv");
-  print(intValue);
-  print("njgfbhfbvfsdbvdfjvbsdfhjvbfhjv");
+
 
   try {
     WidgetsFlutterBinding.ensureInitialized();

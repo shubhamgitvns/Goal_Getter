@@ -34,6 +34,7 @@ class App_Text{
   static String year ="";
   static int Counter = 0;
   static int Complete = 0;
+  static int id = 0;
   static bool done = false;
   static String gmail = "";
 

@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:todocreater/home_page/home_page.dart';
 
 import '../app_them.dart';
+import 'bottombar/bottombar.dart';
 
 const List<String> list_a = <String>[
   'Choose',
@@ -112,8 +113,8 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
   }
 
   final alarmSettings = AlarmSettings(
-    id: 42,
-    dateTime: DateTime(2024,9,23,12,21,1),
+    id: App_Text.id,
+    dateTime: DateTime(2024,9,23,16,12,1),
     assetAudioPath: 'assets/battle.mp3',
     loopAudio: true,
     vibrate: true,
@@ -620,8 +621,9 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                               //   ),
                               // );
                               //
-                              await Alarm.set(alarmSettings: alarmSettings);
-                              //await Alarm.stop(alarmSettings.id);
+                              \
+                             await Alarm.set(alarmSettings: alarmSettings);
+                             //await Alarm.stop(4);
                             },
                           ),
                           InkWell(
@@ -649,12 +651,13 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                                       ?.collection("goal_getter")
                                       .add({
                                     "gmail": App_Text.gmail,
+                                    "ID": App_Text.id,
                                     "title": App_Text.task_title.text,
                                     "sub_title": App_Text.sub_title.text,
                                     "category": App_Text.category,
-                                    "date": _selectedDate1.day.toInt(),
-                                    "month": _selectedDate1.month.toInt(),
-                                    "year": _selectedDate1.year.toInt(),
+                                    "date": _selectedDate1.day.toString(),
+                                    "month": _selectedDate1.month.toString(),
+                                    "year": _selectedDate1.year.toString(),
                                     "time": _selectedTime.format(context).toString(),
                                     "repeat": App_Text.repeat_task,
                                     "comments": App_Text.comments.text,
@@ -666,7 +669,7 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                                     PageTransition(
                                       type: PageTransitionType.leftToRight,
                                       isIos: true,
-                                      child: HomePage(),
+                                      child: Bottomnavigation(index: 0,),
                                     ),
                                   );
                                 }

@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -36,6 +40,7 @@ class Edit_TaskPage extends StatefulWidget {
   String month = "";
   String year = "";
   String id = "";
+  String ID = "";
   //const Edit_TaskPage({super.key});
 
   @override
@@ -50,6 +55,7 @@ class Edit_TaskPage extends StatefulWidget {
       String month,
       String year,
       String id,
+      String  ID,
       ) {
     this.value = value;
     this.title = title;
@@ -60,6 +66,7 @@ class Edit_TaskPage extends StatefulWidget {
     this.month = month;
     this.year = year;
     this.id = id;
+    this.ID = ID;
   }
 }
 
@@ -196,6 +203,18 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
     //print(firebasedata);
     //setState(() {});
   }
+  final alarmSettings = AlarmSettings(
+    id: App_Text.id,
+    dateTime: DateTime(2024,9,23,16,12,1),
+    assetAudioPath: 'assets/battle.mp3',
+    loopAudio: true,
+    vibrate: true,
+    volume: 0.8,
+    fadeDuration: 3.0,
+    notificationTitle: 'Check Yor Latest Task',
+    notificationBody: 'Click and go to the App',
+    enableNotificationOnKill: Platform.isIOS,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +254,41 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
                 const SizedBox(
                   height: 20,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  const Column(
+                    children: [
+                      Text("If alarm is ring",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,fontSize: 20),)
+                    ],
+                  ),
+                    Column(
+                      children: [
+                        InkWell(
+                          child: Container(
+                            height: 50,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.teal,
+                              borderRadius: BorderRadius.circular(30)
+                            ),
+                            child: Center(child: Text("Off",style: TextStyle(color: Colors.white,fontSize: 20),)),
+                          ),
+                          onTap: (){
+                            //print(widget.ID);
+                            setState(() async {
+                              int stop = int.parse(widget.ID);
+                              await Alarm.stop(stop);
+                              print(stop);
+
+                            });
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 20,),
                 const Row(
                   children: [
                     Text(
