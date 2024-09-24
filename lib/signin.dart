@@ -217,14 +217,11 @@ class _SignInDemoState extends State<SignInDemo> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           // const Text('You are not currently signed in.'),
-          //Image.asset("images/login.png"),
-
-          const SizedBox(height: 20),
+          Image.asset("images/login.png"),
           const Padding(
             padding: EdgeInsets.only(left: 15),
             child: Row(
               children: [
-
                 Text(
                   'Login',
                   style: TextStyle(
@@ -268,6 +265,10 @@ class _SignInDemoState extends State<SignInDemo> {
                     width: 200,
                     child: Text("Login With Google",
                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  ),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('images/google.png'),
                   ),
 
                 ],

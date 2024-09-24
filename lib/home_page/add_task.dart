@@ -126,7 +126,7 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
     vibrate: true,
     volume: 0.8,
     fadeDuration: 3.0,
-    notificationTitle: 'Check Yor Latest Task',
+    notificationTitle: 'Check Yor Up-Coming Task',
     notificationBody: 'Click and go to the App',
     enableNotificationOnKill: Platform.isIOS,
   );
@@ -154,7 +154,7 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
             color: Colors.teal,
           ),
           onTap: () {
-            //Navigator.pop(context);
+            Navigator.pop(context);
             print(App_Text.alrm_year);
             print(App_Text.alrm_month);
             print(App_Text.alrm_day);

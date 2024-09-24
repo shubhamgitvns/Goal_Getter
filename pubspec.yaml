@@ -50,6 +50,10 @@ flutter:
 
   assets:
      - assets/battle.mp3
+     - images/intro.png
+     - images/list.png
+     - images/google.png
+     - images/login.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
