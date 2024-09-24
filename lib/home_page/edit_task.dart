@@ -274,14 +274,30 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
                             ),
                             child: Center(child: Text("Off",style: TextStyle(color: Colors.white,fontSize: 20),)),
                           ),
-                          onTap: (){
+                          onTap: () async {
                             //print(widget.ID);
-                            setState(() async {
                               int stop = int.parse(widget.ID);
                               await Alarm.stop(stop);
                               print(stop);
+                              print(widget.id);
+                              setState((){
+                               // isChecked = value!;
+                                App_Text.done = true;
+                                var collection = FirebaseFirestore
+                                    .instance
+                                    .collection('goal_getter');
+                                collection
+                                    .doc(widget.id)
+                                    .update({
+                                  'done': '${App_Text.done}',
+                                }) // <-- Updated data
+                                    .then((_) => print('Success'))
+                                    .catchError((error) =>
+                                    print('Failed: $error'));
+                               // category();
+                              });
 
-                            });
+
                           },
                         )
                       ],

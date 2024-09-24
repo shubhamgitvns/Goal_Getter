@@ -108,13 +108,19 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
     if (picked != null && picked != _selectedTime) {
       setState(() {
         _selectedTime = picked;
+
       });
     }
   }
+ int year = 0;
+ String month="";
+ String date="";
 
   final alarmSettings = AlarmSettings(
-    id: App_Text.id,
-    dateTime: DateTime(2024,9,23,16,12,1),
+    //id: App_Text.id,
+    id: 2,
+    dateTime: DateTime(App_Text.alrm_year,App_Text.alrm_month,App_Text.alrm_day,
+        App_Text.alrm_hour,App_Text.alrm_min,1),
     assetAudioPath: 'assets/battle.mp3',
     loopAudio: true,
     vibrate: true,
@@ -126,7 +132,16 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
   );
 
   @override
+
   Widget build(BuildContext context) {
+    setState(() {
+      App_Text.alrm_year = _selectedDate1.year;
+      App_Text.alrm_month = _selectedDate1.month;
+      App_Text.alrm_day = _selectedDate1.day;
+      App_Text.alrm_hour = _selectedTime.hour;
+      App_Text.alrm_min = _selectedTime.minute;
+    });
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -139,7 +154,13 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
             color: Colors.teal,
           ),
           onTap: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            print(App_Text.alrm_year);
+            print(App_Text.alrm_month);
+            print(App_Text.alrm_day);
+            print(_selectedTime.hour);
+            print(_selectedTime.minute);
+            print(_selectedTime.period);
           },
         ),
         title: const Center(
@@ -489,103 +510,7 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Row(
-                        children: [
-                          Text(
-                            "Choose Remainder",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.green),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.green.shade200)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Remainder",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 18),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20),
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  size: 30,
-                                  color: Colors.green,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Row(
-                        children: [
-                          Text(
-                            "Choose Screen Size && Close Button",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.green),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      InkWell(
-                        child: Container(
-                          height: 50,
-                          //width: 350,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.green.shade200)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  App_Text.Screen_size,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 18),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Icon(
-                                    Icons.chevron_right,
-                                    size: 30,
-                                    color: Colors.green,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   PageTransition(
-                          //     type: PageTransitionType.rightToLeft,
-                          //     isIos: true,
-                          //     child: const Screensize_Page(),
-                          //   ),
-                          // );
-                        },
-                      ),
+
 
                       const SizedBox(
                         height: 50,
@@ -607,23 +532,28 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                                       TextStyle(color: Colors.white, fontSize: 20),
                                     ))),
                             onTap: () async {
-                              // setState(() {
-                              //   App_Text.sub_title.clear();
-                              //   App_Text.task_title.clear();
-                              //   App_Text.comments.clear();
-                              // });
-                              // Navigator.push(
-                              //   context,
-                              //   PageTransition(
-                              //     type: PageTransitionType.rightToLeft,
-                              //     isIos: true,
-                              //     child:Bottomnavigation(index: 0),
-                              //   ),
-                              // );
-                              //
-                              \
-                             await Alarm.set(alarmSettings: alarmSettings);
-                             //await Alarm.stop(4);
+                              setState(() {
+                                App_Text.sub_title.clear();
+                                App_Text.task_title.clear();
+                                App_Text.comments.clear();
+                                App_Text.alrm_year = 0;
+                                App_Text.alrm_month = 0;
+                                App_Text.alrm_day = 0;
+                                App_Text.alrm_hour = 0;
+                                App_Text.alrm_min = 0;
+                              });
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  isIos: true,
+                                  child:Bottomnavigation(index: 0),
+                                ),
+                              );
+
+
+
+
                             },
                           ),
                           InkWell(
@@ -664,6 +594,7 @@ class _Add_TaskPageState extends State<Add_TaskPage> {
                                     "done": App_Text.done,
                                   });
                                   print("sending dta");
+                                  await Alarm.set(alarmSettings: alarmSettings);
                                   Navigator.push(
                                     context,
                                     PageTransition(
@@ -842,3 +773,4 @@ class _DropdownButton_BState extends State<DropdownButton_B> {
     );
   }
 }
+

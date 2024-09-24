@@ -37,6 +37,14 @@ class App_Text{
   static int id = 0;
   static bool done = false;
   static String gmail = "";
+// this var used by alarm timeing
+  static int alrm_year = 0;
+  static int alrm_month = 0;
+  static int alrm_day = 0;
+
+  static int alrm_hour = 0;
+  static int alrm_min = 0;
+  static int alrm_sec = 0;
 
   static FirebaseFirestore? firestoredb; //=FirebaseFirestore.instance;
 

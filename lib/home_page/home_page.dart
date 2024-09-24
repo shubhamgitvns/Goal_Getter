@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 // _scheduleNotification();
                 setState(() {
-                  var intValue = Random().nextInt(10);
+                  var intValue = Random().nextInt(100000);
                   print(intValue);
                   App_Text.id = intValue;
                   print(App_Text.id);
