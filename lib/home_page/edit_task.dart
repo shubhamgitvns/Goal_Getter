@@ -72,7 +72,6 @@ class Edit_TaskPage extends StatefulWidget {
 
 class _Edit_TaskPageState extends State<Edit_TaskPage> {
   DateTime _selectedDate1 = DateTime.now();
-  DateTime _selectedDate2 = DateTime.now();
 //*************Time picker initializer*************
   TimeOfDay _selectedTime = TimeOfDay.now();
 
@@ -90,20 +89,6 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
     if (picked != null && picked != _selectedDate1) {
       setState(() {
         _selectedDate1 = picked;
-      });
-    }
-  }
-
-  Future<void> _ToDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015, 8),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != _selectedDate2) {
-      setState(() {
-        _selectedDate2 = picked;
       });
     }
   }
@@ -203,18 +188,52 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
     //print(firebasedata);
     //setState(() {});
   }
-  final alarmSettings = AlarmSettings(
-    id: App_Text.id,
-    dateTime: DateTime(2024,9,23,16,12,1),
-    assetAudioPath: 'assets/battle.mp3',
-    loopAudio: true,
-    vibrate: true,
-    volume: 0.8,
-    fadeDuration: 3.0,
-    notificationTitle: 'Check Yor Latest Task',
-    notificationBody: 'Click and go to the App',
-    enableNotificationOnKill: Platform.isIOS,
-  );
+
+  void setAlarm() async {
+    // Update this with the values you get from the DatePicker and TimePicker
+    DateTime alarmDateTime = DateTime(
+      App_Text.alrm_year,
+      App_Text.alrm_month,
+      App_Text.alrm_day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
+
+    final alarmSettings = AlarmSettings(
+      id: App_Text.id, // Unique alarm ID, update it if needed
+      dateTime: alarmDateTime,
+      assetAudioPath: 'assets/battle.mp3',
+      loopAudio: true,
+      vibrate: true,
+      volume: 0.8,
+      fadeDuration: 3.0,
+      notificationTitle: 'Check Your Upcoming Task',
+      notificationBody: 'Click and go to the App',
+      enableNotificationOnKill: Platform.isIOS,
+    );
+
+    // Print alarm settings to check if everything is set correctly
+    print("Setting alarm for: $alarmDateTime");
+
+    // Call the Alarm.set method to set the alarm
+    try {
+      await Alarm.set(alarmSettings: alarmSettings);
+      print("Alarm set successfully!");
+    } catch (e) {
+      print("Failed to set alarm: $e");
+    }
+  }
+
+  void stopAlarm(int alarmId) async {
+    try {
+      // Call the stop or cancel method provided by the package
+      await Alarm.stop(alarmId);
+      print("Alarm stopped successfully!");
+    } catch (e) {
+      print("Failed to stop alarm: $e");
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +296,7 @@ class _Edit_TaskPageState extends State<Edit_TaskPage> {
                           onTap: () async {
                             //print(widget.ID);
                               int stop = int.parse(widget.ID);
-                              await Alarm.stop(stop);
+                              stopAlarm(stop);
                               print(stop);
                               print(widget.id);
                               setState((){
