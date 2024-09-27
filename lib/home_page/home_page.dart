@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../app_them.dart';
 import '../utilittes.dart';
 import 'add_task.dart';
@@ -36,23 +34,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _initializeFirebase();
     _requestNotificationPermission();
-    _scheduleNotification();
-  }
-
-  _HomePageState() {
-
-    _messageStreamController.listen((message) {
-      setState(() {
-        if (message.notification != null) {
-          _lastMessage = 'Received a notification message:'
-              '\nTitle=${message.notification?.title},'
-              '\nBody=${message.notification?.body},'
-              '\nData=${message.data}';
-        } else {
-          _lastMessage = 'Received a data message: ${message.data}';
-        }
-      });
-    });
+   // _scheduleNotification();
   }
 
   Future<void> _initializeFirebase() async {
@@ -63,32 +45,6 @@ class _HomePageState extends State<HomePage> {
     await _messaging.requestPermission();
   }
 
-
-  Future<void> _scheduleNotification() async {
-    scheduledTime = DateTime.now().toString(); // Adjust the time as needed
-
-    // Replace these placeholders with your desired values
-    final channelId = 'your_app_unique_channel_id';
-    final channelName = 'Train Reminders';
-    final channelDescription = 'Notifications for upcoming train departures.';
-
-    // final message = await _messaging.schedule(
-    //   'scheduled_notification', // Unique ID for the scheduled notification
-    //   // 'Your train departs in 30 minutes.',
-    //   // 'Your train departs in 30 minutes.',
-    //   scheduledTime,
-    //   android:  AndroidNotificationDetails(
-    //     channelId, // Replace with your channel ID
-    //     channelName, // Replace with your channel name
-    //     channelDescription:channelDescription, // Replace with your channel description
-    //   ),
-    // );
-
-   // print('Scheduled message: ${message.id}');
-  }
-
-
-  //print("Checking current user  $user");
   @override
   Widget build(BuildContext context) {
     App_Text.gmail = "${user?.email}";
@@ -160,11 +116,6 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(15.0),
                     child: Category(),
                   ),
-                  // Text('Last message from Firebase Messaging:',
-                  //     style: Theme.of(context).textTheme.titleLarge),
-                  // Text(_lastMessage, style: Theme.of(context).textTheme.bodyLarge),
-                  // SelectableText(DataGet.token, style: Theme.of(context).textTheme.bodyLarge),
-
 
                 ],
               ),
@@ -186,7 +137,6 @@ class _HomePageState extends State<HomePage> {
                 const Icon(Icons.add,size: 50,color: Colors.white,),
               ),
               onTap: () async {
-                // _scheduleNotification();
                 setState(() {
                   var intValue = Random().nextInt(100000);
                   print(intValue);
@@ -210,27 +160,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// extension FirebaseMessagingExtensions on FirebaseMessaging {
-//   Future<ScheduledMessage> schedule(
-//       String id,
-//       String title,
-//       String body,
-//       DateTime scheduledTime, {
-//         required AndroidNotificationDetails android,
-//       }) async {
-//     return await FirebaseMessaging.instance.schedule(
-//       id,
-//       title,
-//       body,
-//       scheduledTime,
-//       android: android,
-//     );
-//   }
-// }
-
-
-
 
 
 class DataGet {
