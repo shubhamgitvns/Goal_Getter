@@ -58,6 +58,28 @@ A To-Do app is a productivity tool designed to help users organize and manage th
 <li>Android</li>
 <li>Windows</li>
 
+<h1>Screen shorts</h1>
  
+![src1 png](https://github.com/user-attachments/assets/3b348f31-db0a-476b-b1b6-6f4f9343d407)
+<br>
+![src2 png](https://github.com/user-attachments/assets/8083fe56-8dad-4983-86f5-f4f9bd64061e)
+<br>
+![src3 png](https://github.com/user-attachments/assets/6412caa1-04e9-4003-8ba0-962b94af16ec)
+<br>
+![src4 png](https://github.com/user-attachments/assets/21901e71-2735-43c3-9dac-37bcccd684a4)
+<br>
+![src5 png](https://github.com/user-attachments/assets/e83f539c-1384-4c1a-a103-590da7b9a00d)
+<br>
+![src6 png](https://github.com/user-attachments/assets/f7405787-6788-4ddd-b48c-c899ad4c47d4)
+<br>
+![src7png](https://github.com/user-attachments/assets/46af4006-c825-4d3f-a521-68ba402161a6)
+<br>
+![src8](https://github.com/user-attachments/assets/25531318-2a42-48e8-8310-ca9ec2b7f42e)
+<br>
+![src9](https://github.com/user-attachments/assets/8c2592ff-6a01-4dc0-a365-13ce69c82138)
+<br>
+![src10](https://github.com/user-attachments/assets/9a4ee12d-d743-4615-a383-eb7bc0a3c578)
+<br>
+![src11](https://github.com/user-attachments/assets/bff156b5-0c55-4f5e-857d-066d6dab6192)
 
  
