@@ -38,22 +38,25 @@ A To-Do app is a productivity tool designed to help users organize and manage th
  </h5>
  <h5>In this app have a mulyple category or filter like category of task and complete , panding task etc.</h5>
  <h5>Attractive UI pages and Ui elements colors choosing such as backgound shadow, hover buttons border like this.</h5>
+
+ 
 <h1>Features</h1>
 <ul>
-  <li>Multy Subject option</li>
- <li>Correct/Incorrect Feedback</li>
- <li>Set Timer</li>
- <li>Create The Icons</li>
- <li>Beautiful UI</li>
+  <li>Login with Googel</li>
+ <li>Database handel with Firebase</li>
+ <li>Reminders and Notifications</li>
+ <li>Multy Filter Options </li>
+ <li>Devide Categores of task</li>
  <li>Multiple Pages</li>
-<li>Show Score</li>
+<li>Good UI</li>
 </ul>
 <h1>Used Technology</h1>
 <li>Flutter</li>
 <li>Dart</li>
+<li>Firebase</li>
 <h1>Supporting Plateform</h1>
 <li>Android</li>
-<li>Web</li>
+<li>Windows</li>
 
  
 
