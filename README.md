@@ -43,7 +43,7 @@ A To-Do app is a productivity tool designed to help users organize and manage th
 <h1>Features</h1>
 <ul>
   <li>Login with Googel</li>
- <li>Database handel with Firebase</li>
+ <li>Database handle with Firebase</li>
  <li>Reminders and Notifications</li>
  <li>Multy Filter Options </li>
  <li>Devide Categores of task</li>
