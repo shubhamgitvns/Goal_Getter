@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:alarm/alarm.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,25 +16,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async {
 }
 
 Future<void> main() async {
-
-
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    await Alarm.init();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     NotificationServices().requestNotificationPermission();
     NotificationServices().InitNotification();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }catch(e){
     print(e);
-
   }
 
 
-   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   FirebaseAuth.instance.setLanguageCode(ui.window.locale.languageCode);
   runApp(const MyApp());
 }
@@ -58,6 +51,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-

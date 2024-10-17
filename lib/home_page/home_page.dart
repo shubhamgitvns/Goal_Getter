@@ -1,16 +1,13 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../app_them.dart';
 import '../utilittes.dart';
 import 'add_task.dart';
-import 'cataegory.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -27,140 +24,213 @@ class _HomePageState extends State<HomePage> {
   String _lastMessage = "";
   // notification ke liye hh
   final _messageStreamController = BehaviorSubject<RemoteMessage>();
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  String scheduledTime ="";
-  @override
-  void initState() {
-    super.initState();
-    _initializeFirebase();
-    _requestNotificationPermission();
-   // _scheduleNotification();
+
+  _HomePageState() {
+
+    _messageStreamController.listen((message) {
+      setState(() {
+        if (message.notification != null) {
+          _lastMessage = 'Received a notification message:'
+              '\nTitle=${message.notification?.title},'
+              '\nBody=${message.notification?.body},'
+              '\nData=${message.data}';
+        } else {
+          _lastMessage = 'Received a data message: ${message.data}';
+        }
+      });
+    });
   }
 
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
-  }
-
-  Future<void> _requestNotificationPermission() async {
-    await _messaging.requestPermission();
-  }
-
+  //print("Checking current user  $user");
   @override
   Widget build(BuildContext context) {
     App_Text.gmail = "${user?.email}";
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: const Center(child: Text("Welcome",
-          style: TextStyle(color: Colors.teal,fontWeight: FontWeight.bold,fontSize: 30),
-        )),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(25.0),
-            child: Icon(Icons.notification_add,size: 30,color: Colors.teal,),
-          )
-        ],
-      ),
+
       body: Stack(
-        alignment: Alignment.bottomRight,
+        alignment: Alignment.topCenter,
         children: [
-          SingleChildScrollView(
-            //physics: BouncingScrollPhysics(),
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 50,),
-                  Center(
-                    child: Container(
-                      height: 200,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade100,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
+          Container(
+            color: Colors.blue,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: Image.network("https://plus.unsplash.com/premium_photo-1661878265739-da90bc1af051?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGlnaXRhbCUyMHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D"))
+                  ],
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 200),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  child:  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Row(
+                            const Column(
                               children: [
-                                Text("Hello,",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,fontSize: 35,fontStyle: FontStyle.italic),),
+                                CircleAvatar(
+                                  radius: 40,
+                                )
                               ],
                             ),
-                            const SizedBox(height: 20,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            const Padding(
+                              padding: EdgeInsets.only(right: 70),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("Name",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.indigo),)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Uploding on",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.grey),)
+
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
                               children: [
-                                SizedBox(
-                                    width:300,
-                                    child: Text("${user?.displayName}",style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+                                Container(
+                                  height: 40,
+                                  //width: 150,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(color: Colors.blue)
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(child: Text("Carvars Painting",style: TextStyle(color: Colors.indigo,fontSize: 15,fontWeight: FontWeight.bold),)),
+                                  ),
+                                ),
 
                               ],
-                            ),
-                            const SizedBox(height: 20,),
-                            SizedBox(
-                                width:300,
-                                child: Center(child: Text("${user?.email}",style: TextStyle(fontWeight: FontWeight.w500,),))),
+                            )
                           ],
                         ),
-                      ),
+                        const Row(
+                          children: [
+                            Icon(Icons.heart_broken_outlined),
+                            Text("543"),
+                            SizedBox(width: 20,),
+                            Icon(Icons.remove_red_eye_outlined),
+                            Text("2.14 K"),
+                            SizedBox(width: 20,),
+                            Icon(Icons.message),
+                            Text("2"),
+                          ],
+                        )
+                      ],
                     ),
                   ),
 
-                  //************ Category slider *****************//
-                  const SizedBox(height: 10,),
-                  Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Category(),
-                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: TextField(
+                            autofocus: true,
+                            //controller: myController,
+                            cursorColor: Colors.grey,
+                            style: const TextStyle(
+                                color: Colors.black, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.grey,
+                                  //width: 1.5,
+                                ),
+                              ),
 
-                ],
-              ),
+                              //********Focus border like hover******************8
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                  const BorderSide(color: Colors.grey)),
+                              hintText: "Enter Task",
+                              hintStyle: const TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20,),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.indigo,
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: InkWell(child: Icon(Icons.send,color: Colors.white,)),
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
 
-          //***********Task Add Button****************//
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: InkWell(
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.teal
-                ),
-                child:
-                const Icon(Icons.add,size: 50,color: Colors.white,),
-              ),
-              onTap: () async {
-                setState(() {
-                  var intValue = Random().nextInt(100000);
-                  print(intValue);
-                  App_Text.id = intValue;
-                  print(App_Text.id);
-                });
 
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    isIos: true,
-                    child: const Add_TaskPage(),
-                  ),
-                );
-              },
-            ),
-          )
+          //***********Task Add Button****************//
+          // Padding(
+          //   padding: const EdgeInsets.all(15.0),
+          //   child: InkWell(
+          //     child: Container(
+          //       height: 60,
+          //       width: 60,
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(50),
+          //           color: Colors.teal
+          //       ),
+          //       child:
+          //       const Icon(Icons.add,size: 50,color: Colors.white,),
+          //     ),
+          //     onTap: () async {
+          //       setState(() {
+          //         var intValue = Random().nextInt(100000);
+          //         print(intValue);
+          //         App_Text.id = intValue;
+          //         print(App_Text.id);
+          //       });
+          //
+          //       Navigator.push(
+          //         context,
+          //         PageTransition(
+          //           type: PageTransitionType.bottomToTop,
+          //           isIos: true,
+          //           child: const Add_TaskPage(),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // )
         ],
+
       ),
     );
   }
 }
-
 
 class DataGet {
   static String token = '';
