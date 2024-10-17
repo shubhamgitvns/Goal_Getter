@@ -32,6 +32,7 @@ Future<void> main() async {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }catch(e){
     print(e);
+
   }
 
 
