@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../task_list.dart';
 import 'bottombar.dart';
 class CompletePage extends StatefulWidget {
   static FirebaseFirestore? firestoredb; //=FirebaseFirestore.instance;
@@ -39,12 +38,12 @@ class _CompletePageState extends State<CompletePage> {
     ms.forEach((element) {
       for (var value in element.docs) {
         if(value.get('done').toString() == 'true')
-          setState(() {
-            lst.add(TaskList(
-              value,
-            ));
-
-          });
+          // setState(() {
+          //   lst.add(TaskList(
+          //     value,
+          //   ));
+          //
+          // });
         firebasedata = firebasedata + value.data().toString() + "\n";
         print(TimeOfDay.hoursPerDay);
       }

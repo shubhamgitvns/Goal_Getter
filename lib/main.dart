@@ -15,12 +15,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async {
   await Firebase.initializeApp();
 }
 
+
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     NotificationServices().requestNotificationPermission();
     NotificationServices().InitNotification();

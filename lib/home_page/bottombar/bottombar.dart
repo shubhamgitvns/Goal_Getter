@@ -61,14 +61,14 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(Icons.home_filled,
-                    color: _selectedIndex == 0 ? Colors.green : Colors.green.shade100,
+                    color: _selectedIndex == 0 ? Colors.indigo : Colors.indigo.shade100,
 
                   ),
                   Text(
                     "Home",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 0 ? Colors.teal : Colors.green.shade100,
+                      color: _selectedIndex == 0 ? Colors.indigo: Colors.indigo.shade100,
                     ),
                   ),
                 ],
@@ -85,14 +85,14 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.padding,
-                    color: _selectedIndex == 1 ? Colors.green : Colors.green.shade100,
+                    color: _selectedIndex == 1 ? Colors.indigo : Colors.indigo.shade100,
 
                   ),
                   Text(
                     "Pending",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 1 ? Colors.teal : Colors.green.shade100,
+                      color: _selectedIndex == 1 ? Colors.indigo : Colors.indigo.shade100,
                     ),
                   ),
                 ],
@@ -109,14 +109,14 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.task_alt,
-                    color: _selectedIndex == 2 ? Colors.green : Colors.green.shade100,
+                    color: _selectedIndex == 2 ? Colors.indigo : Colors.indigo.shade100,
 
                   ),
                   Text(
                     "Complete",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 2 ? Colors.green : Colors.green.shade100,
+                      color: _selectedIndex == 2 ? Colors.indigo : Colors.indigo.shade100,
                     ),
                   ),
                 ],
@@ -132,14 +132,14 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.calendar_month,
-                    color: _selectedIndex == 3 ? Colors.green : Colors.green.shade100,
+                    color: _selectedIndex == 3 ? Colors.indigo : Colors.indigo.shade100,
 
                   ),
                   Text(
                     "Calendar",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 3 ? Colors.green : Colors.green.shade100,
+                      color: _selectedIndex == 3 ? Colors.indigo: Colors.indigo.shade100,
                     ),
                   ),
                 ],
