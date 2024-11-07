@@ -1,106 +1,127 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:todocreater/home_page/notificationlistner.dart';
 
-import '../app_them.dart';
-import '../utilittes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-
-
-class HomePage extends StatefulWidget {
-  static FirebaseFirestore? firestoredb; //=FirebaseFirestore.instance;
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final GoogleSignInAccount? user = Googel_Signin.currentUser;
-  final messaging = FirebaseMessaging.instance;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  String _lastMessage = "";
-  // notification ke liye hh
-  final _messageStreamController = BehaviorSubject<RemoteMessage>();
-  @override
-  void initState() {
-    super.initState();
-
-    // Foreground notification listener
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Received a message in foreground: ${message.notification!.body}');
-      showNotification(message);
-      saveNotification(
-        message.notification!.title ?? 'No Title',
-        message.notification!.body ?? 'No Body',
-        DateTime.now().toString(),
-      );
-    });
-
-    initializeLocalNotification();
+class HomePage extends StatelessWidget {
+  // Dummy product data as a stream (replace with your database stream)
+  Stream<List<Map<String, dynamic>>> getProductsStream() async* {
+    await Future.delayed(Duration(seconds: 1)); // Simulate delay
+    yield [
+      {
+        "name": "Silk Saree",
+        "image":
+            "https://shubhamgitvns.github.io/ecommerce/assets/images/6.jpg",
+        "price": "₹1299.99",
+      },
+      {
+        "name": "Cotton Saree",
+        "image":
+            "https://shubhamgitvns.github.io/ecommerce/assets/images/4.jpg",
+        "price": "₹699.99",
+      },
+      {
+        "name": "Banarasi Saree",
+        "image":
+            "https://shubhamgitvns.github.io/ecommerce/assets/images/1.jpg",
+        "price": "₹2499.99",
+      },
+      // More dummy data
+    ];
   }
 
-  Future<void> saveNotification(String title, String body, String time) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> notifications = prefs.getStringList('notifications') ?? [];
-    notifications.add('$title|$body|$time');
-    await prefs.setStringList('notifications', notifications);
-  }
-
-  void initializeLocalNotification() {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-   // const IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
-    const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      //iOS: initializationSettingsIOS,
-    );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  void showNotification(RemoteMessage message) {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('your_channel_id', 'your_channel_name',
-        importance: Importance.max, priority: Priority.high, showWhen: false);
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-    flutterLocalNotificationsPlugin.show(
-      0,
-      message.notification!.title,
-      message.notification!.body,
-      platformChannelSpecifics,
-    );
-  }
-
-  _HomePageState() {
-
-    _messageStreamController.listen((message) {
-      setState(() {
-        if (message.notification != null) {
-          _lastMessage = 'Received a notification message:'
-              '\nTitle=${message.notification?.title},'
-              '\nBody=${message.notification?.body},'
-              '\nData=${message.data}';
-        } else {
-          _lastMessage = 'Received a data message: ${message.data}';
-        }
-      });
-    });
-  }
-
-  //print("Checking current user  $user");
   @override
   Widget build(BuildContext context) {
-    App_Text.gmail = "${user?.email}";
     return Scaffold(
+      appBar: AppBar(
+        title: Text("SareeHub"),
+        centerTitle: true,
+      ),
+      body: StreamBuilder<List<Map<String, dynamic>>>(
+        stream: getProductsStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error loading products"));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("No products available"));
+          }
 
-      body: NotificationListScreen()
-      //UserInterface()
+          // Responsive grid layout for products
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              // Determine column count based on screen width
+              int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final product = snapshot.data![index];
+                  return ProductCard(
+                    name: product['name'],
+                    imageUrl: product['image'],
+                    price: product['price'],
+                  );
+                },
+                padding: EdgeInsets.all(10),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final String name;
+  final String imageUrl;
+  final String price;
+
+  ProductCard(
+      {required this.name, required this.imageUrl, required this.price});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  price,
+                  style: TextStyle(color: Colors.green.shade700),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

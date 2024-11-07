@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,12 @@ class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   void initLocalNotifications(
       BuildContext context, RemoteMessage message) async {
     var androidInitializationSettings =
-    const AndroidInitializationSettings('@drawable/transparent');
+        const AndroidInitializationSettings('@drawable/transparent');
     var iosInitializationSettings = const DarwinInitializationSettings();
 
     var initializationSetting = InitializationSettings(
@@ -23,8 +24,8 @@ class NotificationServices {
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSetting,
         onDidReceiveNotificationResponse: (payload) {
-          handleMessage(context, message);
-        });
+      handleMessage(context, message);
+    });
   }
 
   void firebaseInit(BuildContext context) {
@@ -89,33 +90,33 @@ class NotificationServices {
     );
 
     AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails(
-        channel.id.toString(), channel.name.toString(),
-        channelDescription: 'your channel description',
-        importance: Importance.high,
-        priority: Priority.high,
-        playSound: true,
-        ticker: 'ticker',
-        sound: channel.sound,
-        // styleInformation: BigTextStyleInformation(''),
-        // additionalFlags: Int32List.fromList(<int>[4]),
-        actions: <AndroidNotificationAction>[
-          AndroidNotificationAction(
-            '',
-            'Open App',
-            icon: DrawableResourceAndroidBitmap('@drawable/transparent'),
-          ),
-          AndroidNotificationAction(
-            '',
-            '',
-            icon: DrawableResourceAndroidBitmap('@drawable/transparent'),
-          ),
-        ],
-        icon: '@drawable/transparent');
+        AndroidNotificationDetails(
+            channel.id.toString(), channel.name.toString(),
+            channelDescription: 'your channel description',
+            importance: Importance.high,
+            priority: Priority.high,
+            playSound: true,
+            ticker: 'ticker',
+            sound: channel.sound,
+            // styleInformation: BigTextStyleInformation(''),
+            // additionalFlags: Int32List.fromList(<int>[4]),
+            actions: <AndroidNotificationAction>[
+              AndroidNotificationAction(
+                '',
+                'Open App',
+                icon: DrawableResourceAndroidBitmap('@drawable/transparent'),
+              ),
+              AndroidNotificationAction(
+                '',
+                '',
+                icon: DrawableResourceAndroidBitmap('@drawable/transparent'),
+              ),
+            ],
+            icon: '@drawable/transparent');
 
     const DarwinNotificationDetails darwinNotificationDetails =
-    DarwinNotificationDetails(
-        presentAlert: true, presentBadge: true, presentSound: true);
+        DarwinNotificationDetails(
+            presentAlert: true, presentBadge: true, presentSound: true);
 
     NotificationDetails notificationDetails = NotificationDetails(
         android: androidNotificationDetails, iOS: darwinNotificationDetails);
@@ -151,7 +152,7 @@ class NotificationServices {
   Future<void> setupInteractMessage(BuildContext context) async {
     // when app is terminated
     RemoteMessage? initialMessage =
-    await FirebaseMessaging.instance.getInitialMessage();
+        await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
       handleMessage(context, initialMessage);
