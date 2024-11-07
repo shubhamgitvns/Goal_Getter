@@ -170,6 +170,7 @@ class _PandingPageState extends State<PandingPage> {
   //   print(firebasedata);
   // }
 
+
   Future<void> birth_day() async {
     dynamic result =
     await PandingPage.firestoredb?.collection("goal_getter").snapshots();

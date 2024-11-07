@@ -1,91 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:todocreater/home_page/home_page.dart';
-import 'package:todocreater/intropage/todo_list_page.dart';
+import 'package:todocreater/authentication/signin.dart';
 
-import '../app_them.dart';
-import '../home_page/bottombar/bottombar.dart';
-import '../signin.dart';
-import '../utilittes.dart';
+void main() => runApp(ECommerceIntroApp());
 
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-  final String title;
-
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    //NotificationServices().firebaseInit(context);
-    super.initState();
-    //This function define in the utillites page
-    Googel_Signin.login();
-  }
+class ECommerceIntroApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        //scaffoldBackgroundColor: Colors.green.shade50,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.green,
+          secondary: Colors.greenAccent,
+        ),
+      ),
+      home: IntroPage(),
+    );
+  }
+}
 
+class IntroPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset("images/intro.png"),
-              const SizedBox(height: 20,),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.shopping_cart,
+                size: 100,
+                color: Colors.green.shade300,
+              ),
+              SizedBox(height: 20),
               Text(
-                'Get Organized Your Life',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 20,),
-              const SizedBox(
-                width: 300,
-                child: Text(
-                  'This is a simple and effective to-do list and task manager app which helps you manage time.',
-                  style: TextStyle(fontSize: 18,color: Colors.grey,fontWeight: FontWeight.w400),
+                "Welcome to GreenShop!",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green.shade600,
                 ),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 100,),
-              InkWell(
-                child: Container(
-                  height: 50,
-                  width: 300,
-                  color: App_Text.button_color,
-                  child:  const Center(child: Text("Get Started",
-                    style: App_Text.button_text,),),
+              const SizedBox(height: 10),
+              Text(
+                "Discover the best products at unbeatable prices.",
+                style: TextStyle(fontSize: 20, color: Colors.green.shade300),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-                onTap: (){
-
-                  if(Googel_Signin.currentUser == null) {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.topToBottom,
                         isIos: true,
-                        child: const To_Do_List_Intro(),
-                        // FingerPrint(),
-                      ),
-                    );
-                  }
-                  else{
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        isIos: true,
-                        child: Bottomnavigation(index: 0,),
-                        // FingerPrint(),
-                      ),
-                    );
-                  }
+                        child: SignInDemo()),
+                  );
                 },
-              )
+                child: Text(
+                  "Get Started",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),
