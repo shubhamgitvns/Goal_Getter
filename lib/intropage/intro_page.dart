@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todocreater/authentication/signin.dart';
 
+import '../home_page/bottombar/bottombar.dart';
+import '../utilittes.dart';
+
 void main() => runApp(ECommerceIntroApp());
 
 class ECommerceIntroApp extends StatelessWidget {
@@ -22,7 +25,20 @@ class ECommerceIntroApp extends StatelessWidget {
   }
 }
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
+  @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
+  @override
+  void initState() {
+    //NotificationServices().firebaseInit(context);
+    super.initState();
+    //This function define in the utillites page
+    Googel_Signin.login();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,13 +79,25 @@ class IntroPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.topToBottom,
-                        isIos: true,
-                        child: SignInDemo()),
-                  );
+                  if (Googel_Signin.currentUser == null) {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.topToBottom,
+                          isIos: true,
+                          child: SignInDemo()),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.topToBottom,
+                          isIos: true,
+                          child: Bottomnavigation(
+                            index: 0,
+                          )),
+                    );
+                  }
                 },
                 child: Text(
                   "Get Started",
