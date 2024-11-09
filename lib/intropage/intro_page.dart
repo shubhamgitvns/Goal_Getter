@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todocreater/app_text_var.dart';
 import 'package:todocreater/authentication/signin.dart';
 
 import '../home_page/bottombar/bottombar.dart';
@@ -78,7 +79,8 @@ class _IntroPageState extends State<IntroPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  print(App_Text.db_json_data);
                   if (Googel_Signin.currentUser == null) {
                     Navigator.push(
                       context,
