@@ -1,0 +1,25 @@
+
+APi- getLatestApiVersion()
+
+{
+https://shubhamgitvns.github.io/ecommerce/assets/version.json
+return versionno  4
+}
+
+API getDats()
+{
+https://shubhamgitvns.github.io/ecommerce/assets/products.json
+}
+readFVersionromSqlite() 4
+{
+
+}
+
+readDataSqlite()
+{
+
+}
+saveToSqlite()
+{
+
+}

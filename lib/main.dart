@@ -46,31 +46,29 @@ Future<void> main() async {
   } catch (ex) {
     print(ex);
   }
-
-  print(App_Text.new_version);
-
   print(App_Text.old_version);
-
   if (App_Text.new_version != App_Text.old_version) {
-    App_Text.old_version = App_Text.new_version;
-    //convert string data to int data
-    App_Text.version = int.tryParse(App_Text.old_version)!;
-
-    App_Text.db_json_data = App_Text.json_data;
     print("Come");
 
     var javabook = Json(App_Text.version, App_Text.json_data);
+    await DatabaseHandler.insertJson(javabook);
+    print(await DatabaseHandler.jsons());
+
     await DatabaseHandler.updateJson(javabook);
     print(await DatabaseHandler.jsons());
     print("Update");
-
-    // print("search");
-    // var list = await DatabaseHandler.jsons();
-    // List<Json> lst = list;
-    // print(list);
+    print("search");
+    var list = await DatabaseHandler.jsons();
+    List<Json> lst = list;
+    print(lst);
+    // App_Text.old_version = ;
+    // //convert string data to int data
+    // App_Text.version = int.tryParse(App_Text.old_version)!;
+    //
+    // App_Text.db_json_data = App_Text.json_data;
   }
-  print(App_Text.version);
-  print(App_Text.db_json_data);
+  // print(App_Text.version);
+  // print(App_Text.db_json_data);
 
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   FirebaseAuth.instance.setLanguageCode(ui.window.locale.languageCode);

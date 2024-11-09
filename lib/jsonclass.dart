@@ -1,12 +1,12 @@
 class Json {
-  final int version;
+  final int id;
   final String json_data;
 
-  Json(this.version, this.json_data) {}
+  Json(this.id, this.json_data) {}
 
   Map<String, dynamic> toMap() {
     return {
-      'version': version,
+      'id': id,
       'json_data': json_data,
     };
   }
@@ -15,7 +15,7 @@ class Json {
 // each book.
   @override
   String toString() {
-    return 'Json{version:$version, json_data: $json_data}';
+    return 'Json{id:$id, json_data: $json_data}';
   }
 }
 

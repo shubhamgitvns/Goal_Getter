@@ -21,20 +21,22 @@ class DatabaseHandler {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE jsons(version INTEGER PRIMARY KEY, json_data TEXT)',
+          'CREATE TABLE jsons(id INTEGER PRIMARY KEY, json_data TEXT)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
       // path to perform database upgrades and downgrades.
       version: 1,
     );
+    print("Attach data in the data base");
+    print(database);
   }
 
   // Define a function that inserts books into the database
   static Future<void> insertJson(Json json) async {
     // Get a reference to the database.
     final db = await database;
-
+    print(database);
     /* Insert the book into the correct table. You might also specify the
      `conflictAlgorithm` to use in case the same book is inserted twice. This cn therefore be used
      for update as well. Other values are abort,ignore,fail and rollback
@@ -59,7 +61,7 @@ class DatabaseHandler {
     // Convert the List<Map<String, dynamic> into a List<Book>.
     return List.generate(maps.length, (i) {
       return Json(
-        maps[i]['version'],
+        maps[i]['id'],
         maps[i]['json_data'],
       );
     });
@@ -75,9 +77,9 @@ class DatabaseHandler {
       json.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
       // Ensure that the book has a matching id.
-      where: 'version = ?',
+      where: 'id = ?',
       // Pass the book's id as a whereArg to prevent SQL injection.
-      whereArgs: [json.version],
+      whereArgs: [json.id],
     );
   }
 
