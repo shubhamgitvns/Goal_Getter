@@ -21,7 +21,7 @@ class DatabaseHandler {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE jsons(id INTEGER PRIMARY KEY, json_data TEXT)',
+          'CREATE TABLE jsons(id INTEGER PRIMARY KEY,version INTEGER, json_data TEXT)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -36,7 +36,7 @@ class DatabaseHandler {
   static Future<void> insertJson(Json json) async {
     // Get a reference to the database.
     final db = await database;
-    print(database);
+    print("Come in the insert function");
     /* Insert the book into the correct table. You might also specify the
      `conflictAlgorithm` to use in case the same book is inserted twice. This cn therefore be used
      for update as well. Other values are abort,ignore,fail and rollback
@@ -62,6 +62,7 @@ class DatabaseHandler {
     return List.generate(maps.length, (i) {
       return Json(
         maps[i]['id'],
+        maps[i]['version'],
         maps[i]['json_data'],
       );
     });

@@ -5,9 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:todocreater/app_text_var.dart';
 
 import 'api/firebase_api.dart';
+import 'app_text_var.dart';
 import 'downloder.dart';
 import 'firebase_options.dart';
 import 'intropage/intro_page.dart';
@@ -36,39 +36,58 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   }
+  //print(App_Text.local_version);
+  print("search");
+  var list = await DatabaseHandler.jsons();
+  List<Json> lst = list;
+  print(lst);
+
+  if (lst.length == 0) {
+    var javabook = Json(App_Text.id, App_Text.version, App_Text.json_data);
+    await DatabaseHandler.insertJson(javabook);
+    print(await DatabaseHandler.jsons());
+  }
+  list = await DatabaseHandler.jsons();
+  lst = list;
+  print("search");
+  App_Text.local_version = lst.first.version;
+  App_Text.db_json_data = lst.last.json_data;
+  print(App_Text.local_version);
+  print(App_Text.db_json_data);
+  //********************Download throw the internet*********************//
 
   try {
     dynamic text =
-        await Utilities.Downloaddata("/ecommerce/assets/products.json");
-    App_Text.json_data = ("${text["sarees"]}");
-    App_Text.new_version = ("${text["no"]}");
-    // App_Text.name = ("${text["username"]}");
+        await Utilities.Downloaddata("/ecommerce/assets/version.json");
+    App_Text.new_version = ("${text["version"]}");
+    print("the new version ${App_Text.new_version}");
+    print(App_Text.new_version.runtimeType);
   } catch (ex) {
     print(ex);
   }
-  print(App_Text.old_version);
-  if (App_Text.new_version != App_Text.old_version) {
-    print("Come");
+  int intversion = int.parse(App_Text.new_version);
+  print("The new version $intversion");
+  print("The local version ${App_Text.local_version}");
 
-    var javabook = Json(App_Text.version, App_Text.json_data);
-    await DatabaseHandler.insertJson(javabook);
-    print(await DatabaseHandler.jsons());
+  if (intversion > App_Text.local_version) {
+    print("Yes its greater");
+    App_Text.version = intversion;
+    print(App_Text.version);
 
+    try {
+      dynamic text =
+          await Utilities.Downloaddata("/ecommerce/assets/products.json");
+      App_Text.json_data = "${text["sarees"]}";
+      print("the new String ${App_Text.json_data}");
+    } catch (ex) {
+      print(ex);
+    }
+
+    var javabook = Json(App_Text.id, App_Text.version, App_Text.json_data);
     await DatabaseHandler.updateJson(javabook);
     print(await DatabaseHandler.jsons());
     print("Update");
-    print("search");
-    var list = await DatabaseHandler.jsons();
-    List<Json> lst = list;
-    print(lst);
-    // App_Text.old_version = ;
-    // //convert string data to int data
-    // App_Text.version = int.tryParse(App_Text.old_version)!;
-    //
-    // App_Text.db_json_data = App_Text.json_data;
   }
-  // print(App_Text.version);
-  // print(App_Text.db_json_data);
 
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   FirebaseAuth.instance.setLanguageCode(ui.window.locale.languageCode);
