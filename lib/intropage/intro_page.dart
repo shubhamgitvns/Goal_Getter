@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:todocreater/app_text_var.dart';
 import 'package:todocreater/authentication/signin.dart';
 
+import '../functions.dart';
 import '../home_page/bottombar/bottombar.dart';
 import '../utilittes.dart';
 
@@ -76,8 +77,10 @@ class _IntroPageState extends State<IntroPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {
-                  if (App_Text.connection == "error") {
+                onPressed: () async {
+                  int vnoOnline = await getOnline_Version();
+                  print(vnoOnline);
+                  if (vnoOnline == -1) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("No internet connection."),
