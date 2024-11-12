@@ -15,7 +15,6 @@ class ECommerceIntroApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.green,
-        //scaffoldBackgroundColor: Colors.green.shade50,
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Colors.green,
           secondary: Colors.greenAccent,
@@ -34,9 +33,7 @@ class IntroPage extends StatefulWidget {
 class _IntroPageState extends State<IntroPage> {
   @override
   void initState() {
-    //NotificationServices().firebaseInit(context);
     super.initState();
-    //This function define in the utillites page
     Googel_Signin.login();
   }
 
@@ -79,26 +76,36 @@ class _IntroPageState extends State<IntroPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () async {
-                  print(App_Text.db_json_data);
-                  if (Googel_Signin.currentUser == null) {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.topToBottom,
-                          isIos: true,
-                          child: SignInDemo()),
+                onPressed: () {
+                  if (App_Text.connection == "error") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("No internet connection."),
+                      ),
                     );
                   } else {
-                    Navigator.push(
-                      context,
-                      PageTransition(
+                    print(App_Text.db_json_data);
+                    if (Googel_Signin.currentUser == null) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.topToBottom,
+                          isIos: true,
+                          child: SignInDemo(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageTransition(
                           type: PageTransitionType.topToBottom,
                           isIos: true,
                           child: Bottomnavigation(
                             index: 0,
-                          )),
-                    );
+                          ),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Text(

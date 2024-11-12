@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,10 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todocreater/functions.dart';
 
 import 'api/firebase_api.dart';
-import 'app_text_var.dart';
-import 'downloder.dart';
 import 'firebase_options.dart';
 import 'intropage/intro_page.dart';
 import 'jsonclass.dart';
@@ -36,58 +36,38 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   }
-  //print(App_Text.local_version);
   print("search");
-  var list = await DatabaseHandler.jsons();
-  List<Json> lst = list;
-  print(lst);
+  await initDbData();
 
-  if (lst.length == 0) {
-    var javabook = Json(App_Text.id, App_Text.version, App_Text.json_data);
-    await DatabaseHandler.insertJson(javabook);
-    print(await DatabaseHandler.jsons());
-  }
-  list = await DatabaseHandler.jsons();
-  lst = list;
-  print("search");
-  App_Text.local_version = lst.first.version;
-  App_Text.db_json_data = lst.last.json_data;
-  print(App_Text.local_version);
-  print(App_Text.db_json_data);
-  //********************Download throw the internet*********************//
+  int vnoOnline = await getOnline_Version();
+  int vnoLocal = await getLocal_Version();
+  print("online V-- $vnoOnline");
+  print("local V-- $vnoLocal");
 
-  try {
-    dynamic text =
-        await Utilities.Downloaddata("/ecommerce/assets/version.json");
-    App_Text.new_version = ("${text["version"]}");
-    print("the new version ${App_Text.new_version}");
-    print(App_Text.new_version.runtimeType);
-  } catch (ex) {
-    print(ex);
-  }
-  int intversion = int.parse(App_Text.new_version);
-  print("The new version $intversion");
-  print("The local version ${App_Text.local_version}");
-
-  if (intversion > App_Text.local_version) {
-    print("Yes its greater");
-    App_Text.version = intversion;
-    print(App_Text.version);
-
+  if (vnoOnline > vnoLocal) {
+    // App_Text.version = vnoOnline;
     try {
-      dynamic text =
-          await Utilities.Downloaddata("/ecommerce/assets/products.json");
-      App_Text.json_data = "${text["sarees"]}";
-      print("the new String ${App_Text.json_data}");
+      print("data kr bare me hh");
+      var onlinedata = await getOnlineData();
+
+      int newversion = onlinedata["no"];
+      String sarees = jsonEncode(onlinedata["sarees"]);
+      await Update_Data(1, newversion, sarees);
+      print("update");
+      var list = await DatabaseHandler.jsons();
+      List<Json> lst = list;
+      // String name = lst.first.json_data['name'];
+      var obj = jsonDecode(lst.first.json_data);
+      print(lst.first.json_data);
+      print(obj);
+      print(obj.length);
+      print(obj['name']);
     } catch (ex) {
+      print("Error");
       print(ex);
     }
-
-    var javabook = Json(App_Text.id, App_Text.version, App_Text.json_data);
-    await DatabaseHandler.updateJson(javabook);
-    print(await DatabaseHandler.jsons());
-    print("Update");
   }
+  // return;
 
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   FirebaseAuth.instance.setLanguageCode(ui.window.locale.languageCode);

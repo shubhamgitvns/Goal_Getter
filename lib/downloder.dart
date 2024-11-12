@@ -11,11 +11,12 @@ class Utilities {
       final response = await http.get(url);
       print("Response $response");
       print("status${response.statusCode}");
-      print("Body${response.body}");
+      // print("Body${response.body}");
 
       final jsonResponse = convert.jsonDecode(response.body);
 
       print(jsonResponse.runtimeType);
+      print("Sendibg");
       return jsonResponse;
     } catch (e) {
       print(e);

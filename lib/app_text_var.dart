@@ -6,4 +6,6 @@ class App_Text {
   static int version = 0;
   static int local_version = 0;
   static int id = 1;
+
+  static String connection = "";
 }
