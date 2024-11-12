@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
+import 'detail_page.dart';
 
 class HomePage extends StatelessWidget {
   // Stream to fetch products from the local database
@@ -23,9 +24,10 @@ class HomePage extends StatelessWidget {
       print(data[0]["name"]);
       yield data.map((product) {
         return {
+          "description": product['description'],
           "name": product['name'],
           "image": product['image'],
-          "price": "90"
+          "price": product['price']
         };
       }).toList();
     } catch (e) {
@@ -74,9 +76,11 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final product = snapshot.data![index];
                     return ProductCard(
+                      description: product['description'],
                       name: product['name'],
                       imageUrl: product['image'],
                       price: product['price'],
+                      product: product,
                     );
                   },
                   padding: const EdgeInsets.all(10),
@@ -156,54 +160,100 @@ class ExitConfirmationDialog extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
+  final String description;
   final String name;
   final String imageUrl;
-  final String price;
+  final double price;
+  final Map<String, dynamic> product;
 
   const ProductCard({
+    required this.description,
     required this.name,
     required this.imageUrl,
     required this.price,
+    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(10)),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        // Print product details on card tap
+        print("Product Details:");
+        print("Name: ${product['name']}");
+        print("Image URL: ${product['image']}");
+        print("Price: ${product['price']}");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              imageUrl: imageUrl,
+              description: description,
+              name: name,
+              price: price.toString(),
+            ),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(10)),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  price,
-                  style: TextStyle(color: Colors.green.shade700),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        description,
+                        style: const TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          name,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      //const SizedBox(height: 4),
+                      Expanded(
+                        child: Text(
+                          price.toString(),
+                          style: TextStyle(color: Colors.green.shade700),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
