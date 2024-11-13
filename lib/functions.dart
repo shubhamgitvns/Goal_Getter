@@ -39,7 +39,7 @@ Future<void> initDbData() async {
   var lst = await DatabaseHandler.jsons();
   print(lst);
   if (lst.length == 0) {
-    var javabook = Json(1, 0, "");
+    var javabook = Json(1, 1, "");
     await DatabaseHandler.insertJson(javabook);
     print(await DatabaseHandler.jsons());
   }

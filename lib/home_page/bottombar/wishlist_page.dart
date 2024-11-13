@@ -1,36 +1,42 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../jsonclass.dart';
-import '../localdb.dart';
-import 'detail_page.dart';
+import '../../jsonclass.dart';
+import '../../localdb.dart';
+import '../detail_page.dart';
 
-class HomePage extends StatelessWidget {
+class Wishlist extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = '';
 
   // Stream to fetch products from the local database
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {
     try {
-      // Assuming a method to retrieve data from the local database
-      final list = await DatabaseHandler.jsons();
-      List<Json> lst = list;
-      List<Map<String, dynamic>> data =
-          List<Map<String, dynamic>>.from(jsonDecode(lst.first.json_data));
+      final list = await DatabaseHandler.cards();
+      List<Shopping> lst = list;
+      print(lst);
+      print("hii");
+      print(lst);
+      print(lst[0]);
+      // print(lst[0].card_data);
+      print(lst[0].name);
+      // List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(lst);
+      // print("done");
+      var data = lst;
 
-      print(data);
-      print(data.length);
-      print(data[0]["name"]);
+      print(lst.runtimeType);
+      print(lst.length);
+      print("My data");
+      print(data[0].description);
       yield data.map((product) {
         return {
-          "description": product['description'],
-          "name": product['name'],
-          "image": product['image'],
-          "price": product['price']
+          "description": product.description,
+          "name": product.name,
+          "image": product.image,
+          "price": double.parse(product.price)
         };
       }).toList();
     } catch (e) {
@@ -86,7 +92,7 @@ class HomePage extends StatelessWidget {
 
             return LayoutBuilder(
               builder: (context, constraints) {
-                int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
+                int crossAxisCount = constraints.maxWidth < 600 ? 1 : 4;
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
@@ -282,8 +288,4 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class DataGet {
-  static String token = '';
 }

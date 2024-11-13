@@ -61,7 +61,6 @@ Future<void> main() async {
       print(lst.first.json_data);
       print(obj);
       print(obj.length);
-      print(obj['name']);
     } catch (ex) {
       print("Error");
       print(ex);

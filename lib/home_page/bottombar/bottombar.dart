@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todocreater/home_page/bottombar/panding_page.dart';
+import 'package:todocreater/home_page/bottombar/Order_page.dart';
+import 'package:todocreater/home_page/bottombar/wishlist_page.dart';
 
 import '../home_page.dart';
-import 'calander.dart';
-import 'complete_page.dart';
+import 'profile.dart';
 
 class Bottomnavigation extends StatefulWidget {
   int index = 0;
@@ -20,9 +20,9 @@ class _BottomnavigationState extends State<Bottomnavigation> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    const PandingPage(),
-    const CompletePage(),
-    const CalanderPage(),
+    Wishlist(),
+    Order_Page(),
+    ProfilePage(),
     // const Profile(),
   ];
 

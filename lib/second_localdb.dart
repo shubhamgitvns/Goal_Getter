@@ -16,17 +16,12 @@ class DatabaseHandler {
       /* Set the path to the database. Using the `join` function from the
        `path` package  sets the correct path for each platform.
        */
-      join(await getDatabasesPath(), 'jsons_database.db'),
+      join(await getDatabasesPath(), 'second_database.db'),
       // When the database is first created, create a table to store books.
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
-
-        db.execute(
+        return db.execute(
           'CREATE TABLE jsons(id INTEGER PRIMARY KEY,version INTEGER, json_data TEXT)',
-        );
-        db.execute(
-          // 'CREATE TABLE shopping_cart(id INTEGER PRIMARY KEY AUTOINCREMENT,version INTEGER, json_data TEXT)',
-          'CREATE TABLE shopping_cart(description TEXT, name TEXT, price TEXT, image TEXT )',
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -55,24 +50,6 @@ class DatabaseHandler {
     );
   }
 
-  static Future<void> insertShopping_card(Shopping shop) async {
-    // Get a reference to the database.
-    final db = await database;
-    print("Come in the insert function");
-    /* Insert the book into the correct table. You might also specify the
-     `conflictAlgorithm` to use in case the same book is inserted twice. This cn therefore be used
-     for update as well. Other values are abort,ignore,fail and rollback
-
-
-     In this case, replace any previous data.*/
-
-    await db.insert(
-      'shopping_cart',
-      shop.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
   // A method that retrieves all the books from the books table.
   static Future<List<Json>> jsons() async {
     // Get a reference to the database.
@@ -87,27 +64,6 @@ class DatabaseHandler {
         maps[i]['id'],
         maps[i]['version'],
         maps[i]['json_data'],
-      );
-    });
-  }
-
-  static Future<List<Shopping>> cards() async {
-    // Get a reference to the database.
-    final db = await database;
-
-    // Query the table for all The books.
-    final List<Map<String, dynamic>> maps = await db.query('shopping_cart');
-    //  await db.rawQuery('SELECT card_data FROM shopping_cart');
-    // await db.query('SELECT card_data FROM shopping_cart');
-    print(maps);
-
-    // Convert the List<Map<String, dynamic> into a List<Book>.
-    return List.generate(maps.length, (i) {
-      return Shopping(
-        maps[i]['description'],
-        maps[i]['name'],
-        maps[i]['price'],
-        maps[i]['image'],
       );
     });
   }

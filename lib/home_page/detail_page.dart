@@ -1,17 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../jsonclass.dart';
+import '../localdb.dart';
+
 class DetailPage extends StatelessWidget {
   final String imageUrl;
   final String description;
   final String name;
   final String price;
+  final String product;
 
   const DetailPage(
       {required this.imageUrl,
       required this.description,
       required this.name,
-      required this.price});
+      required this.price,
+      required this.product});
   static FirebaseFirestore? firestoredb;
 
   @override
@@ -58,15 +63,12 @@ class DetailPage extends StatelessWidget {
                     )),
                   ),
                   onTap: () async {
-                    await DetailPage.firestoredb
-                        ?.collection("srees_data_detail")
-                        .add({
-                      "id": '11',
-                      "img": "$imageUrl",
-                      "description": "$description",
-                      "price": "$price",
-                      "name": "$name"
-                    });
+                    print("search");
+                    var crd = await DatabaseHandler.cards();
+                    print(crd);
+                    var javabook = Shopping(description, name, price, imageUrl);
+                    await DatabaseHandler.insertShopping_card(javabook);
+
                     print("sending dta");
                   },
                 ),
