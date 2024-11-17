@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todocreater/home_page/order_page.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
@@ -37,16 +38,22 @@ class DetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  height: 50,
-                  width: 100,
-                  color: Colors.green,
-                  child: const Center(
-                      child: Text(
-                    "Buy now",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  )),
+                InkWell(
+                  child: Container(
+                    height: 50,
+                    width: 100,
+                    color: Colors.green,
+                    child: const Center(
+                        child: Text(
+                      "Buy now",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => OrderFormPage()));
+                  },
                 ),
                 InkWell(
                   child: Container(
@@ -63,13 +70,31 @@ class DetailPage extends StatelessWidget {
                     )),
                   ),
                   onTap: () async {
-                    print("search");
-                    var crd = await DatabaseHandler.cards();
-                    print(crd);
-                    var javabook = Shopping(description, name, price, imageUrl);
-                    await DatabaseHandler.insertShopping_card(javabook);
+                    try {
+                      print("Adding to wishlist");
+                      var crd = await DatabaseHandler.cards();
+                      print(crd);
+                      var javabook =
+                          Shopping(description, name, price, imageUrl);
+                      await DatabaseHandler.insertShopping_card(javabook);
 
-                    print("sending dta");
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:
+                              Text("Product successfully added to wishlist!"),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    } catch (e) {
+                      // Show error message if something goes wrong
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Failed to add product: $e"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                 ),
               ],

@@ -251,9 +251,9 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Expanded(
                           child: Text(
-                        description,
+                        name,
                         style: const TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ))
                     ],
                   ),
@@ -265,13 +265,17 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 1,
+                          description,
+                          style: const TextStyle(fontSize: 14),
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       //const SizedBox(height: 4),
+                    ],
+                  ),
+                  Row(
+                    children: [
                       Expanded(
                         child: Text(
                           price.toString(),
@@ -279,7 +283,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
