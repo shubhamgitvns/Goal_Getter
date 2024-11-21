@@ -129,12 +129,7 @@ class ExitConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Icon(
-        Icons.check_box,
-        color: Colors.green.shade200,
-        size: 50,
-      ),
-      content: const Text(
+      title: const Text(
         "Do you want to exit?",
         style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
       ),
@@ -143,7 +138,7 @@ class ExitConfirmationDialog extends StatelessWidget {
           child: Container(
             height: 50,
             width: 60,
-            color: Colors.red,
+            color: Colors.green,
             child: const Center(
               child: Text(
                 "Yes",

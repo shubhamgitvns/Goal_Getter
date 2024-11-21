@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = '';
 
-  // Stream to fetch products from the local database
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {
     try {
       final list = await DatabaseHandler.jsons();

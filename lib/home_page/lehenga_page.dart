@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'detail_page.dart'; // Import the DetailPage
+
 class LehengaPage extends StatefulWidget {
   @override
   _LehengaPageState createState() => _LehengaPageState();
@@ -36,10 +38,10 @@ class _LehengaPageState extends State<LehengaPage> {
           "https://www.lavanyathelabel.com/cdn/shop/files/0H8A3228_1800x.jpg?v=1700028456" // Replace with actual image URL
     },
     {
-      "name": "Elegent Lehenga",
-      "description": "Bright floral lehenga for festive occasions.",
-      "price": "₹7,499",
-      "review": "4.2/5",
+      "name": "Elegant Lehenga",
+      "description": "Elegant lehenga for grand celebrations.",
+      "price": "₹7,999",
+      "review": "4.3/5",
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-_cWfeqkN8Lwu1P9Ndm2rpzWXkyFoof2ByQ&s" // Replace with actual image URL
     },
@@ -65,96 +67,116 @@ class _LehengaPageState extends State<LehengaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredData = getFilteredData();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Lehenga Collection"),
+        automaticallyImplyLeading: true,
+        title: const Text("Lehenga Collections"),
         centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          // Search bar
-          Padding(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50.0),
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search for lehengas',
-                prefixIcon: Icon(Icons.search),
+                hintText: 'Search by name or category',
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
           ),
-          // Lehenga List
-          Expanded(
-            child: filteredData.isEmpty
-                ? const Center(child: Text("No lehengas available"))
-                : GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 0.5,
+        ),
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
+          final filteredData = getFilteredData();
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.5,
+            ),
+            itemCount: filteredData.length,
+            itemBuilder: (context, index) {
+              final product = filteredData[index];
+              return GestureDetector(
+                onTap: () {
+                  // Navigate to DetailPage with product details
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailPage(
+                        imageUrl: product['image'],
+                        description: product['description'],
+                        name: product['name'],
+                        price: product['price'],
+                        product: product.toString(),
+                      ),
                     ),
-                    itemCount: filteredData.length,
-                    itemBuilder: (context, index) {
-                      final product = filteredData[index];
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Image.network(
-                                product['image'],
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    product['name'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    product['description'],
-                                    style: const TextStyle(fontSize: 14),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Price: ${product['price']}",
-                                    style: const TextStyle(
-                                        color: Colors.green, fontSize: 14),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Review: ${product['review']}",
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                  );
+                },
+                child: Card(
+                  elevation: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Image.network(
+                          product['image'],
+                          fit: BoxFit.cover,
                         ),
-                      );
-                    },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          product['name'],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          product['description'],
+                          style: const TextStyle(
+                              //fontWeight: FontWeight.bold,
+                              //  fontSize: 15,
+                              ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(product['price'],
+                                style: const TextStyle(
+                                    color: Colors.green, fontSize: 14)),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(product['review'],
+                                style: const TextStyle(
+                                    color: Colors.orange, fontSize: 14)),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-          ),
-        ],
+                ),
+              );
+            },
+            padding: const EdgeInsets.all(10),
+          );
+        },
       ),
     );
   }
