@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import 'detail_page.dart'; // Import the DetailPage
+import 'package:flutter/material.dart';
 
 class LehengaPage extends StatefulWidget {
   @override
@@ -10,16 +10,22 @@ class LehengaPage extends StatefulWidget {
 class _LehengaPageState extends State<LehengaPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = '';
+  bool _isOffline = false;
+  bool _isFirstLoadFailed = false;
+  bool _isLoading = true;
+  List<Map<String, dynamic>> lehengaData = []; // Final data to show
+  List<Map<String, dynamic>> cachedData = []; // Cached data for offline use
 
-  // Dummy JSON data for lehenga details
-  final List<Map<String, dynamic>> lehengaData = [
+  // Dummy JSON data
+
+  List<Map<String, dynamic>> _lehengaDataSource = [
     {
       "name": "Embroidered Lehenga",
       "description": "Beautifully crafted lehenga with intricate embroidery.",
       "price": "₹8,999.90",
       "review": "4.5/5",
       "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gr9aYub0RSLZDmZjDU6yMNTeS19ot_3CdA&s" // Replace with actual image URL
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gr9aYub0RSLZDmZjDU6yMNTeS19ot_3CdA&s"
     },
     {
       "name": "Silk Lehenga",
@@ -27,7 +33,15 @@ class _LehengaPageState extends State<LehengaPage> {
       "price": "₹12,499.67",
       "review": "4.8/5",
       "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s" // Replace with actual image URL
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s"
+    },
+    {
+      "name": "Silk Lehenga",
+      "description": "Elegant silk lehenga perfect for weddings.",
+      "price": "₹12,499.67",
+      "review": "4.8/5",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s"
     },
     {
       "name": "Floral Lehenga",
@@ -35,7 +49,7 @@ class _LehengaPageState extends State<LehengaPage> {
       "price": "₹7,499.50",
       "review": "4.2/5",
       "image":
-          "https://www.lavanyathelabel.com/cdn/shop/files/0H8A3228_1800x.jpg?v=1700028456" // Replace with actual image URL
+          "https://www.lavanyathelabel.com/cdn/shop/files/0H8A3228_1800x.jpg?v=1700028456"
     },
     {
       "name": "Elegant Lehenga",
@@ -43,26 +57,60 @@ class _LehengaPageState extends State<LehengaPage> {
       "price": "₹7,999.70",
       "review": "4.3/5",
       "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-_cWfeqkN8Lwu1P9Ndm2rpzWXkyFoof2ByQ&s" // Replace with actual image URL
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-_cWfeqkN8Lwu1P9Ndm2rpzWXkyFoof2ByQ&s"
+    },
+    {
+      "name": "Silk Lehenga",
+      "description": "Elegant silk lehenga perfect for weddings.",
+      "price": "₹12,499.67",
+      "review": "4.8/5",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s"
     },
   ];
-
-  // Filter lehenga data based on search keyword
-  List<Map<String, dynamic>> getFilteredData() {
-    return lehengaData.where((product) {
-      final name = product['name']?.toLowerCase() ?? '';
-      return name.contains(_searchKeyword.toLowerCase());
-    }).toList();
-  }
 
   @override
   void initState() {
     super.initState();
+    _checkConnectivityAndLoadData();
     _searchController.addListener(() {
       setState(() {
         _searchKeyword = _searchController.text;
       });
     });
+  }
+
+  Future<void> _checkConnectivityAndLoadData() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        _loadData();
+      }
+    } on SocketException catch (_) {
+      setState(() {
+        _isOffline = true;
+        _isFirstLoadFailed = lehengaData.isEmpty;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadData() async {
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    setState(() {
+      lehengaData = _lehengaDataSource; // Load data
+      cachedData = lehengaData; // Cache data
+      _isOffline = false;
+      _isFirstLoadFailed = false;
+      _isLoading = false;
+    });
+  }
+
+  List<Map<String, dynamic>> getFilteredData() {
+    return lehengaData.where((product) {
+      final name = product['name']?.toLowerCase() ?? '';
+      return name.contains(_searchKeyword.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -89,94 +137,102 @@ class _LehengaPageState extends State<LehengaPage> {
           ),
         ),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
-          final filteredData = getFilteredData();
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 8,
-              childAspectRatio: 0.5,
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _isFirstLoadFailed
+              ? _buildNoInternetView()
+              : _buildGridView(),
+    );
+  }
+
+  Widget _buildNoInternetView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "No Internet Connection",
+            style: TextStyle(fontSize: 18, color: Colors.red),
+          ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: _checkConnectivityAndLoadData,
+            child: Text("Refresh"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGridView() {
+    final filteredData = getFilteredData();
+    return RefreshIndicator(
+      onRefresh: () async {
+        try {
+          final result = await InternetAddress.lookup('example.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            await _loadData();
+          }
+        } on SocketException catch (_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("No Internet Connection"),
+              backgroundColor: Colors.red,
             ),
-            itemCount: filteredData.length,
-            itemBuilder: (context, index) {
-              final product = filteredData[index];
-              return GestureDetector(
-                onTap: () {
-                  // Navigate to DetailPage with product details
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => DetailPage(
-                        imageUrl: product['image'],
-                        description: product['description'],
-                        name: product['name'],
-                        price: product['price'],
-                        product: product.toString(),
-                      ),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: Image.network(
-                          product['image'],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          product['name'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          product['description'],
-                          style: const TextStyle(
-                              //fontWeight: FontWeight.bold,
-                              //  fontSize: 15,
-                              ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(product['price'],
-                                style: const TextStyle(
-                                    color: Colors.green, fontSize: 14)),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(product['review'],
-                                style: const TextStyle(
-                                    color: Colors.orange, fontSize: 14)),
-                          ),
-                        ],
-                      ),
-                    ],
+          );
+        }
+      },
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 8,
+          childAspectRatio: 0.5,
+        ),
+        itemCount: filteredData.length,
+        itemBuilder: (context, index) {
+          final product = filteredData[index];
+          return Card(
+            elevation: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Image.network(
+                    product['image'],
+                    fit: BoxFit.cover,
                   ),
                 ),
-              );
-            },
-            padding: const EdgeInsets.all(10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    product['name'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(product['description']),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(product['price'],
+                        style:
+                            const TextStyle(color: Colors.green, fontSize: 14)),
+                    Text(product['review'],
+                        style: const TextStyle(
+                            color: Colors.orange, fontSize: 14)),
+                  ],
+                ),
+              ],
+            ),
           );
         },
+        padding: const EdgeInsets.all(10),
       ),
     );
   }
