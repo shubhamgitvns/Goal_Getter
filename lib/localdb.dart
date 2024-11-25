@@ -128,6 +128,21 @@ class DatabaseHandler {
     );
   }
 
+  // Delete product by name
+  static Future<void> deleteProductByName(String productName) async {
+    final db = await initialize();
+    try {
+      // Deleting the product from the database where the name matches
+      await db.delete(
+        'products',
+        where: 'name = ?',
+        whereArgs: [productName],
+      );
+    } catch (e) {
+      print('Error deleting product: $e');
+    }
+  }
+
   static Future<void> deleteJson(int id) async {
     // Get a reference to the database.
     final db = await database;

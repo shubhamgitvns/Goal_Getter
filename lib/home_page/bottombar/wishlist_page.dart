@@ -8,41 +8,67 @@ import '../../jsonclass.dart';
 import '../../localdb.dart';
 import '../detail_page.dart';
 
-class Wishlist extends StatelessWidget {
+class Wishlist extends StatefulWidget {
+  @override
+  _WishlistState createState() => _WishlistState();
+}
+
+class _WishlistState extends State<Wishlist> {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = '';
+  late Stream<List<Map<String, dynamic>>> _productsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _productsStream = getProductsStream();
+    _searchController.addListener(() {
+      setState(() {
+        _searchKeyword = _searchController.text.toLowerCase();
+      });
+    });
+  }
 
   // Stream to fetch products from the local database
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {
     try {
       final list = await DatabaseHandler.cards();
       List<Shopping> lst = list;
-      print(lst);
-      print("hii");
-      print(lst);
-      print(lst[0]);
-      // print(lst[0].card_data);
-      print(lst[0].name);
-      // List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(lst);
-      // print("done");
-      var data = lst;
 
-      print(lst.runtimeType);
-      print(lst.length);
-      print("My data");
-      print(data[0].description);
-      yield data.map((product) {
-        return {
-          "description": product.description,
-          "name": product.name,
-          "image": product.image,
-          "price": double.parse(product.price)
-        };
-      }).toList();
+      Map<String, Map<String, dynamic>> productMap = {};
+
+      // Merge products with the same name
+      for (var product in lst) {
+        // is used to clean or filter the price of a product so that it only contains numbers and a decimal point.
+        String cleanPrice = product.price.replaceAll(RegExp(r'[^\d.]'), '');
+
+        if (productMap.containsKey(product.name)) {
+          productMap[product.name]!['quantity'] += 1; // Increase quantity
+        } else {
+          productMap[product.name] = {
+            "description": product.description,
+            "name": product.name,
+            "image": product.image,
+            "price": double.parse(cleanPrice),
+            "quantity": 1, // Initialize quantity
+          };
+        }
+      }
+
+      yield productMap.values.toList();
     } catch (e) {
       print("Error fetching products: $e");
-      yield []; // Return empty list in case of error
+      yield [];
     }
+  }
+
+  // Delete the product by name
+  Future<void> deleteProduct(String productName) async {
+    await DatabaseHandler.deleteProductByName(
+        productName); // Delete from the DB
+    setState(() {
+      _productsStream = getProductsStream(); // Refresh the product list
+    });
   }
 
   @override
@@ -60,17 +86,14 @@ class Wishlist extends StatelessWidget {
           title: const Text("SareeHub"),
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(50.0),
+            preferredSize: const Size.fromHeight(50.0),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _searchController,
-                onChanged: (value) {
-                  _searchKeyword = value;
-                },
                 decoration: InputDecoration(
                   hintText: 'Search by name or category',
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -80,7 +103,7 @@ class Wishlist extends StatelessWidget {
           ),
         ),
         body: StreamBuilder<List<Map<String, dynamic>>>(
-          stream: getProductsStream(),
+          stream: _productsStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -89,6 +112,11 @@ class Wishlist extends StatelessWidget {
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return const Center(child: Text("No products available"));
             }
+
+            var filteredProducts = snapshot.data!.where((product) {
+              return product['name'].toLowerCase().contains(_searchKeyword) ||
+                  product['description'].toLowerCase().contains(_searchKeyword);
+            }).toList();
 
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -100,15 +128,16 @@ class Wishlist extends StatelessWidget {
                     mainAxisSpacing: 8,
                     childAspectRatio: 0.7,
                   ),
-                  itemCount: snapshot.data!.length,
+                  itemCount: filteredProducts.length,
                   itemBuilder: (context, index) {
-                    final product = snapshot.data![index];
+                    final product = filteredProducts[index];
                     return ProductCard(
                       description: product['description'],
                       name: product['name'],
                       imageUrl: product['image'],
                       price: product['price'],
-                      product: product,
+                      quantity: product['quantity'],
+                      onDelete: () => deleteProduct(product['name']),
                     );
                   },
                   padding: const EdgeInsets.all(10),
@@ -122,10 +151,7 @@ class Wishlist extends StatelessWidget {
   }
 }
 
-// Custom Exit Confirmation Dialog (make sure this widget exists)
 class ExitConfirmationDialog extends StatelessWidget {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchKeyword = '';
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -189,25 +215,22 @@ class ProductCard extends StatelessWidget {
   final String name;
   final String imageUrl;
   final double price;
-  final Map<String, dynamic> product;
+  final int quantity;
+  final VoidCallback onDelete;
 
   const ProductCard({
     required this.description,
     required this.name,
     required this.imageUrl,
     required this.price,
-    required this.product,
+    required this.quantity,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Print product details on card tap
-        print("Product Details:");
-        print("Name: ${product['name']}");
-        print("Image URL: ${product['image']}");
-        print("Price: ${product['price']}");
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -216,7 +239,7 @@ class ProductCard extends StatelessWidget {
               description: description,
               name: name,
               price: price.toString(),
-              product: product.toString(),
+              product: name,
             ),
           ),
         );
@@ -242,43 +265,34 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Text(
-                        name,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ))
-                    ],
+                  Text(
+                    name,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    height: 4,
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: const TextStyle(fontSize: 14),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          description,
-                          style: const TextStyle(fontSize: 14),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      //const SizedBox(height: 4),
-                    ],
+                  const SizedBox(height: 4),
+                  Text(
+                    "₹ $price",
+                    style: TextStyle(color: Colors.green.shade700),
                   ),
+                  const SizedBox(height: 4),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          price.toString(),
-                          style: TextStyle(color: Colors.green.shade700),
-                        ),
+                      Text("Qty: $quantity"),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: onDelete, // Trigger the delete
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

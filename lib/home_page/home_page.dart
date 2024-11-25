@@ -9,6 +9,7 @@ import 'package:todocreater/home_page/lehenga_page.dart';
 import '../jsonclass.dart';
 import '../localdb.dart';
 import 'bottombar/wishlist_page.dart';
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -183,12 +184,12 @@ class _HomePageState extends State<HomePage> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final product = snapshot.data![index];
-                    return ProductCard(
+                    return Product_Saree(
                       description: product['description'],
                       name: product['name'],
                       imageUrl: product['image'],
                       price: product['price'],
-                      product: product,
+                      product: product.toString(),
                     );
                   },
                   padding: const EdgeInsets.all(10),
@@ -196,6 +197,96 @@ class _HomePageState extends State<HomePage> {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+// sarees product list only
+class Product_Saree extends StatelessWidget {
+  final String description;
+  final String name;
+  final String imageUrl;
+  final double price;
+  final String product;
+
+  const Product_Saree({
+    required this.description,
+    required this.name,
+    required this.imageUrl,
+    required this.price,
+    required this.product,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              imageUrl: imageUrl,
+              description: description,
+              name: name,
+              price: price.toString(),
+              product: product,
+            ),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(10)),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    description,
+                    style: const TextStyle(fontSize: 14),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "₹ $price",
+                    style: TextStyle(color: Colors.green.shade700),
+                  ),
+                ),
+                const SizedBox(height: 4),
+              ],
+            ),
+          ],
         ),
       ),
     );

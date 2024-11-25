@@ -16,7 +16,7 @@ class _LehengaPageState extends State<LehengaPage> {
     {
       "name": "Embroidered Lehenga",
       "description": "Beautifully crafted lehenga with intricate embroidery.",
-      "price": "₹8,999",
+      "price": "₹8,999.90",
       "review": "4.5/5",
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gr9aYub0RSLZDmZjDU6yMNTeS19ot_3CdA&s" // Replace with actual image URL
@@ -24,7 +24,7 @@ class _LehengaPageState extends State<LehengaPage> {
     {
       "name": "Silk Lehenga",
       "description": "Elegant silk lehenga perfect for weddings.",
-      "price": "₹12,499",
+      "price": "₹12,499.67",
       "review": "4.8/5",
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s" // Replace with actual image URL
@@ -32,7 +32,7 @@ class _LehengaPageState extends State<LehengaPage> {
     {
       "name": "Floral Lehenga",
       "description": "Bright floral lehenga for festive occasions.",
-      "price": "₹7,499",
+      "price": "₹7,499.50",
       "review": "4.2/5",
       "image":
           "https://www.lavanyathelabel.com/cdn/shop/files/0H8A3228_1800x.jpg?v=1700028456" // Replace with actual image URL
@@ -40,7 +40,7 @@ class _LehengaPageState extends State<LehengaPage> {
     {
       "name": "Elegant Lehenga",
       "description": "Elegant lehenga for grand celebrations.",
-      "price": "₹7,999",
+      "price": "₹7,999.70",
       "review": "4.3/5",
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-_cWfeqkN8Lwu1P9Ndm2rpzWXkyFoof2ByQ&s" // Replace with actual image URL

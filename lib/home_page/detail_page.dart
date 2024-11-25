@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todocreater/home_page/order_page.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
+import 'order_page.dart';
 
 class DetailPage extends StatelessWidget {
   final String imageUrl;
@@ -70,14 +70,15 @@ class DetailPage extends StatelessWidget {
                     )),
                   ),
                   onTap: () async {
+                    print("add page");
                     try {
                       print("Adding to wishlist");
                       var crd = await DatabaseHandler.cards();
+                      print(crd.length);
                       print(crd);
                       var javabook =
                           Shopping(description, name, price, imageUrl);
                       await DatabaseHandler.insertShopping_card(javabook);
-
                       // Show success message
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

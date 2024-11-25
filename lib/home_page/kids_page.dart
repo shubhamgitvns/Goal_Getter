@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'detail_page.dart';
+
 class KidsPage extends StatefulWidget {
   @override
   _KidsPageState createState() => _KidsPageState();
@@ -81,96 +83,116 @@ class _KidsPageState extends State<KidsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredData = getFilteredData();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kids Collection"),
+        automaticallyImplyLeading: true,
+        title: const Text("Kids Collections"),
         centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          // Search bar
-          Padding(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50.0),
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search for lehengas',
-                prefixIcon: Icon(Icons.search),
+                hintText: 'Search by name or category',
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
           ),
-          // Lehenga List
-          Expanded(
-            child: filteredData.isEmpty
-                ? const Center(child: Text("No Kurti available"))
-                : GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 0.5,
+        ),
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
+          final filteredData = getFilteredData();
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.5,
+            ),
+            itemCount: filteredData.length,
+            itemBuilder: (context, index) {
+              final product = filteredData[index];
+              return GestureDetector(
+                onTap: () {
+                  // Navigate to DetailPage with product details
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailPage(
+                        imageUrl: product['image'],
+                        description: product['description'],
+                        name: product['name'],
+                        price: product['price'],
+                        product: product.toString(),
+                      ),
                     ),
-                    itemCount: filteredData.length,
-                    itemBuilder: (context, index) {
-                      final product = filteredData[index];
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Image.network(
-                                product['image'],
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    product['name'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    product['description'],
-                                    style: const TextStyle(fontSize: 14),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Price: ${product['price']}",
-                                    style: const TextStyle(
-                                        color: Colors.green, fontSize: 14),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Review: ${product['review']}",
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                  );
+                },
+                child: Card(
+                  elevation: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Image.network(
+                          product['image'],
+                          fit: BoxFit.cover,
                         ),
-                      );
-                    },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          product['name'],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          product['description'],
+                          style: const TextStyle(
+                              //fontWeight: FontWeight.bold,
+                              //  fontSize: 15,
+                              ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(product['price'],
+                                style: const TextStyle(
+                                    color: Colors.green, fontSize: 14)),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(product['review'],
+                                style: const TextStyle(
+                                    color: Colors.orange, fontSize: 14)),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-          ),
-        ],
+                ),
+              );
+            },
+            padding: const EdgeInsets.all(10),
+          );
+        },
       ),
     );
   }
