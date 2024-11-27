@@ -20,6 +20,12 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = '';
 
+  final List<String> _sliderImages = [
+    "https://via.placeholder.com/600x300.png?text=Sale+1",
+    "https://via.placeholder.com/800x400.png?text=New+Arrivals",
+    "https://via.placeholder.com/1200x600.png?text=Exclusive+Offers",
+  ];
+
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {
     try {
       final list = await DatabaseHandler.jsons();
@@ -60,145 +66,143 @@ class _HomePageState extends State<HomePage> {
         return value ?? false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          bottom: PreferredSize(
-            preferredSize:
-                Size.fromHeight(140.0), // Increased height for categories
-            child: Column(
-              children: [
-                // Category Row
-                SizedBox(
-                  height: 100, // Fixed height for the category row
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        child: const Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage: NetworkImage(
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1riobDe7UUaUwHOrWnwmx-d5M6NjkTGg7yjdEhfef3wlki7txX0GFi6YLCG1KxyZPNYk&usqp=CAU"), // Using NetworkImage
-                              // Optional fallback content
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Lehenga set",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+        // add nestedScrollview widget
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                expandedHeight: 500.0,
+                pinned: true,
+                automaticallyImplyLeading: false,
+                //specially create fexibleSpace if the scrool on the top the its fix according his size
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              categoryItem(
+                                "Lehenga set",
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1riobDe7UUaUwHOrWnwmx-d5M6NjkTGg7yjdEhfef3wlki7txX0GFi6YLCG1KxyZPNYk&usqp=CAU",
+                                LehengaPage(),
+                              ),
+                              categoryItem(
+                                "Kurti set",
+                                "https://www.wholesaletextile.in/product-img/Banwery-Pankh-Ladies-Kurti-Cot-1623224100.jpeg",
+                                KurtiPage(),
+                              ),
+                              categoryItem(
+                                "Kids set",
+                                "https://cdn.shopify.com/s/files/1/0086/0150/1792/files/Girls_Clothing_-_Kidstudio.jpg?v=1600863380",
+                                KidsPage(),
+                              ),
+                            ],
+                          ),
                         ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => LehengaPage()));
-                        },
-                      ),
-                      InkWell(
-                        child: const Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage: NetworkImage(
-                                  "https://www.wholesaletextile.in/product-img/Banwery-Pankh-Ladies-Kurti-Cot-1623224100.jpeg"), // Using NetworkImage
-                              // Optional fallback content
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search by name or category',
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Kurti set",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                          ),
                         ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => KurtiPage()));
-                        },
-                      ),
-                      InkWell(
-                        child: const Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage: NetworkImage(
-                                  "https://cdn.shopify.com/s/files/1/0086/0150/1792/files/Girls_Clothing_-_Kidstudio.jpg?v=1600863380"), // Using NetworkImage
-                              // Optional fallback content
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Kids set",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 300,
+                          child: PageView.builder(
+                            itemCount: _sliderImages.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    _sliderImages[index],
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => KidsPage()));
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search by name or category',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ];
+          },
+          body: StreamBuilder<List<Map<String, dynamic>>>(
+            stream: getProductsStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text("Error loading products"));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text("No products available"));
+              }
+
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 0.5,
+                    ),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final product = snapshot.data![index];
+                      return Product_Saree(
+                        description: product['description'],
+                        name: product['name'],
+                        imageUrl: product['image'],
+                        price: product['price'],
+                        product: product.toString(),
+                      );
+                    },
+                    padding: const EdgeInsets.all(10),
+                  );
+                },
+              );
+            },
           ),
         ),
-        body: StreamBuilder<List<Map<String, dynamic>>>(
-          stream: getProductsStream(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text("Error loading products"));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text("No products available"));
-            }
-
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                int crossAxisCount = constraints.maxWidth < 600 ? 2 : 4;
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.5,
-                  ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final product = snapshot.data![index];
-                    return Product_Saree(
-                      description: product['description'],
-                      name: product['name'],
-                      imageUrl: product['image'],
-                      price: product['price'],
-                      product: product.toString(),
-                    );
-                  },
-                  padding: const EdgeInsets.all(10),
-                );
-              },
-            );
-          },
-        ),
       ),
+    );
+  }
+
+  Widget categoryItem(String name, String imageUrl, Widget page) {
+    return InkWell(
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 35,
+            backgroundImage: NetworkImage(imageUrl),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            name,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+      },
     );
   }
 }

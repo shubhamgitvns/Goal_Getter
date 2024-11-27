@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../localdb.dart';
+
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -92,7 +94,11 @@ class ProfilePage extends StatelessWidget {
                 'Logout',
                 style: TextStyle(color: Colors.red),
               ),
-              onTap: () {
+              onTap: () async {
+                await DatabaseHandler.deleteJson(1);
+                var list = await DatabaseHandler.jsons();
+                print(list);
+
                 // Add logout functionality
               },
             ),

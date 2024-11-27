@@ -150,6 +150,8 @@ class _LehengaPageState extends State<LehengaPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Icon(Icons.wifi_off, size: 50, color: Colors.red),
+          SizedBox(height: 10),
           Text(
             "No Internet Connection",
             style: TextStyle(fontSize: 18, color: Colors.red),
