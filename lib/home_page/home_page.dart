@@ -21,9 +21,9 @@ class _HomePageState extends State<HomePage> {
   String _searchKeyword = '';
 
   final List<String> _sliderImages = [
-    "https://via.placeholder.com/600x300.png?text=Sale+1",
-    "https://via.placeholder.com/800x400.png?text=New+Arrivals",
-    "https://via.placeholder.com/1200x600.png?text=Exclusive+Offers",
+    "https://shantipursaree.com/wp-content/uploads/2024/06/Red-And-White-Modern-Wedding-Season-Offer-Instagram-Post.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo8fq6Mkhx1yGInuZoPiVBvN0hy1sw7fYsvQ&s",
+    "https://www.samyakk.com/blog/wp-content/uploads/2024/01/Kanchipuram-Saree-Mobile01-Copy.jpg",
   ];
 
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {

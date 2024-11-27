@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
-import 'order_page.dart';
+import 'order_detail_page.dart';
 
 class DetailPage extends StatelessWidget {
   final String imageUrl;
