@@ -21,7 +21,7 @@ class _BottomnavigationState extends State<Bottomnavigation> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     Wishlist(),
-    Order_Page(),
+    order_page(),
     ProfilePage(),
     // const Profile(),
   ];

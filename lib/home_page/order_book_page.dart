@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../jsonclass.dart';
+import '../localdb.dart';
 import 'bottombar/bottombar.dart';
 
 class OrderFormPage extends StatefulWidget {
-  const OrderFormPage({Key? key}) : super(key: key);
+  final String description;
+  final String name;
+  final String price;
+  final String imageUrl;
+
+  const OrderFormPage({
+    Key? key,
+    required this.description,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+  }) : super(key: key);
 
   @override
   _OrderFormPageState createState() => _OrderFormPageState();
@@ -25,7 +38,7 @@ class _OrderFormPageState extends State<OrderFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order Details'),
+        title: const Text('Order Book'),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -201,7 +214,35 @@ class _OrderFormPageState extends State<OrderFormPage> {
                               ),
                               actions: [
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () async {
+                                    print('order');
+                                    try {
+                                      print("enter the order table");
+                                      var order =
+                                          await DatabaseHandler.orders();
+                                      print(order.length);
+                                      print(order);
+                                      var order_detail = Order_Detail(
+                                          widget.description,
+                                          widget.name,
+                                          widget.price,
+                                          widget.imageUrl);
+                                      await DatabaseHandler.insertOrder(
+                                          order_detail);
+                                    } catch (e) {
+                                      // Show error message if something goes wrong
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content:
+                                              Text("Failed to add product: $e"),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+
+                                    Navigator.pop(context);
+                                  },
                                   child: const Text('OK'),
                                 ),
                               ],

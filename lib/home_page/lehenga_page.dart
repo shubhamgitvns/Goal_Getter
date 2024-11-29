@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import 'detail_page.dart';
+
 class LehengaPage extends StatefulWidget {
   @override
   _LehengaPageState createState() => _LehengaPageState();
@@ -13,10 +15,8 @@ class _LehengaPageState extends State<LehengaPage> {
   bool _isOffline = false;
   bool _isFirstLoadFailed = false;
   bool _isLoading = true;
-  List<Map<String, dynamic>> lehengaData = []; // Final data to show
-  List<Map<String, dynamic>> cachedData = []; // Cached data for offline use
-
-  // Dummy JSON data
+  List<Map<String, dynamic>> lehengaData = [];
+  List<Map<String, dynamic>> cachedData = [];
 
   List<Map<String, dynamic>> _lehengaDataSource = [
     {
@@ -26,14 +26,6 @@ class _LehengaPageState extends State<LehengaPage> {
       "review": "4.5/5",
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gr9aYub0RSLZDmZjDU6yMNTeS19ot_3CdA&s"
-    },
-    {
-      "name": "Silk Lehenga",
-      "description": "Elegant silk lehenga perfect for weddings.",
-      "price": "₹12,499.67",
-      "review": "4.8/5",
-      "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s"
     },
     {
       "name": "Silk Lehenga",
@@ -59,14 +51,6 @@ class _LehengaPageState extends State<LehengaPage> {
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-_cWfeqkN8Lwu1P9Ndm2rpzWXkyFoof2ByQ&s"
     },
-    {
-      "name": "Silk Lehenga",
-      "description": "Elegant silk lehenga perfect for weddings.",
-      "price": "₹12,499.67",
-      "review": "4.8/5",
-      "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkLJqN4nWhYdwl9wRiX1OZ5un-6P4JvXRQ3A&s"
-    },
   ];
 
   @override
@@ -80,6 +64,7 @@ class _LehengaPageState extends State<LehengaPage> {
     });
   }
 
+//*********** This function ckeck the internet connection then load the data  **********//
   Future<void> _checkConnectivityAndLoadData() async {
     try {
       final result = await InternetAddress.lookup('example.com');
@@ -95,17 +80,19 @@ class _LehengaPageState extends State<LehengaPage> {
     }
   }
 
+//************** Loading the Product Data  ******************************//
   Future<void> _loadData() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    await Future.delayed(Duration(seconds: 2));
     setState(() {
-      lehengaData = _lehengaDataSource; // Load data
-      cachedData = lehengaData; // Cache data
+      lehengaData = _lehengaDataSource;
+      cachedData = lehengaData;
       _isOffline = false;
       _isFirstLoadFailed = false;
       _isLoading = false;
     });
   }
 
+// ****************** Searching the data according to product name *****************//
   List<Map<String, dynamic>> getFilteredData() {
     return lehengaData.where((product) {
       final name = product['name']?.toLowerCase() ?? '';
@@ -145,6 +132,7 @@ class _LehengaPageState extends State<LehengaPage> {
     );
   }
 
+// ********** if the internet connection is empty *************//
   Widget _buildNoInternetView() {
     return Center(
       child: Column(
@@ -166,18 +154,23 @@ class _LehengaPageState extends State<LehengaPage> {
     );
   }
 
+//*********** refresh indicator code here ****************//
   Widget _buildGridView() {
     final filteredData = getFilteredData();
     return RefreshIndicator(
       onRefresh: () async {
+        //******* if the connection is connected ****************//
         try {
           final result = await InternetAddress.lookup('example.com');
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
             await _loadData();
           }
-        } on SocketException catch (_) {
+        }
+        //******* if the connection is not connected ****************//
+
+        on SocketException catch (_) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("No Internet Connection"),
               backgroundColor: Colors.red,
             ),
@@ -185,7 +178,7 @@ class _LehengaPageState extends State<LehengaPage> {
         }
       },
       child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 8,
@@ -194,43 +187,62 @@ class _LehengaPageState extends State<LehengaPage> {
         itemCount: filteredData.length,
         itemBuilder: (context, index) {
           final product = filteredData[index];
-          return Card(
-            elevation: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Image.network(
-                    product['image'],
-                    fit: BoxFit.cover,
+          return GestureDetector(
+            //******* if the user click the product the the user go to the detail page here code ************//
+            onTap: () {
+              // Navigate to Detail Page
+              print(product.toString());
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                    name: product['name'],
+                    description: product['description'],
+                    price: product['price'],
+                    imageUrl: product['image'],
+                    product: product.toString(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    product['name'],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              );
+            },
+            child: Card(
+              elevation: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      product['image'],
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(product['description']),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(product['price'],
-                        style:
-                            const TextStyle(color: Colors.green, fontSize: 14)),
-                    Text(product['review'],
-                        style: const TextStyle(
-                            color: Colors.orange, fontSize: 14)),
-                  ],
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      product['name'],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(product['description']),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(product['price'],
+                          style: const TextStyle(
+                              color: Colors.green, fontSize: 14)),
+                      Text(product['review'],
+                          style: const TextStyle(
+                              color: Colors.orange, fontSize: 14)),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
-import 'order_detail_page.dart';
+import 'order_book_page.dart';
 
 class DetailPage extends StatelessWidget {
   final String imageUrl;
@@ -51,8 +51,15 @@ class DetailPage extends StatelessWidget {
                     )),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => OrderFormPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => OrderFormPage(
+                                  description: description,
+                                  name: name,
+                                  price: price,
+                                  imageUrl: imageUrl,
+                                )));
                   },
                 ),
                 InkWell(

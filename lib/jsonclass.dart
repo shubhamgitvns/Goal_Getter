@@ -43,3 +43,27 @@ class Shopping {
     return '{description:$description, name:$name, price:$price, image:$image}';
   }
 }
+
+// this class for order page
+class Order_Detail {
+  final String description;
+  final String name;
+  final String price;
+  final String image;
+
+  Order_Detail(this.description, this.name, this.price, this.image) {}
+
+  Map<String, dynamic> toMap() {
+    return {
+      'description': description,
+      'name': name,
+      'price': price,
+      'image': image,
+    };
+  }
+
+  @override
+  String toString() {
+    return '{description:$description, name:$name, price:$price, image:$image}';
+  }
+}

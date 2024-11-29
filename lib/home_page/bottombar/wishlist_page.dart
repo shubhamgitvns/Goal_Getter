@@ -64,8 +64,7 @@ class _WishlistState extends State<Wishlist> {
 
   // Delete the product by name
   Future<void> deleteProduct(String productName) async {
-    await DatabaseHandler.deleteProductByName(
-        productName); // Delete from the DB
+    await DatabaseHandler.deleteOrderByName(productName); // Delete from the DB
     setState(() {
       _productsStream = getProductsStream(); // Refresh the product list
     });

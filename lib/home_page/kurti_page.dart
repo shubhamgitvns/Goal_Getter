@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import 'detail_page.dart';
+
 class KurtiPage extends StatefulWidget {
   @override
   _KurtiPageState createState() => _KurtiPageState();
@@ -101,7 +103,7 @@ class _KurtiPageState extends State<KurtiPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: const Text("Lehenga Collections"),
+        title: const Text("Kurti Collections"),
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
@@ -177,43 +179,62 @@ class _KurtiPageState extends State<KurtiPage> {
         itemCount: filteredData.length,
         itemBuilder: (context, index) {
           final product = filteredData[index];
-          return Card(
-            elevation: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Image.network(
-                    product['image'],
-                    fit: BoxFit.cover,
+          return GestureDetector(
+            //******* if the user click the product the the user go to the detail page here code ************//
+            onTap: () {
+              // Navigate to Detail Page
+              print(product.toString());
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                    name: product['name'],
+                    description: product['description'],
+                    price: product['price'],
+                    imageUrl: product['image'],
+                    product: product.toString(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    product['name'],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              );
+            },
+            child: Card(
+              elevation: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      product['image'],
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(product['description']),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(product['price'],
-                        style:
-                            const TextStyle(color: Colors.green, fontSize: 14)),
-                    Text(product['review'],
-                        style: const TextStyle(
-                            color: Colors.orange, fontSize: 14)),
-                  ],
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      product['name'],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(product['description']),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(product['price'],
+                          style: const TextStyle(
+                              color: Colors.green, fontSize: 14)),
+                      Text(product['review'],
+                          style: const TextStyle(
+                              color: Colors.orange, fontSize: 14)),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },

@@ -25,6 +25,9 @@ class _HomePageState extends State<HomePage> {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo8fq6Mkhx1yGInuZoPiVBvN0hy1sw7fYsvQ&s",
     "https://www.samyakk.com/blog/wp-content/uploads/2024/01/Kanchipuram-Saree-Mobile01-Copy.jpg",
   ];
+  late PageController _pageController;
+  late Timer _timer;
+  int _currentPage = 0;
 
   Stream<List<Map<String, dynamic>>> getProductsStream() async* {
     try {
@@ -48,11 +51,37 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    // Initialize the PageController
+    _pageController = PageController();
+
+    // Set up a timer to auto-slide every 3 seconds
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_currentPage < _sliderImages.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+
+    // Search keyword listener
     _searchController.addListener(() {
       setState(() {
         _searchKeyword = _searchController.text;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancel the timer when the widget is disposed
+    _pageController.dispose(); // Dispose the PageController
+    super.dispose();
   }
 
   @override
@@ -119,6 +148,8 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 300,
                           child: PageView.builder(
+                            controller:
+                                _pageController, // Use the PageController
                             itemCount: _sliderImages.length,
                             itemBuilder: (context, index) {
                               return Padding(
