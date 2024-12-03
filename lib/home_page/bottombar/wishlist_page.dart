@@ -64,7 +64,8 @@ class _WishlistState extends State<Wishlist> {
 
   // Delete the product by name
   Future<void> deleteProduct(String productName) async {
-    await DatabaseHandler.deleteOrderByName(productName); // Delete from the DB
+    await DatabaseHandler.deleteWishlistByName(
+        productName); // Delete from the DB
     setState(() {
       _productsStream = getProductsStream(); // Refresh the product list
     });
@@ -286,9 +287,35 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Qty: $quantity"),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: onDelete, // Trigger the delete
+                      InkWell(
+                        child: Icon(Icons.delete, color: Colors.red),
+                        onTap: () async {
+                          bool confirm = await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Delete Confirmation"),
+                              content: const Text(
+                                  "Are you sure you want to delete this product?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(
+                                      context, false), // Dismiss dialog
+                                  child: const Text("No",
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    // Delete product
+                                    onDelete();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Yes",
+                                      style: TextStyle(color: Colors.green)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

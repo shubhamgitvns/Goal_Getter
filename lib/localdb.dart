@@ -188,6 +188,19 @@ class DatabaseHandler {
     );
   }
 
+  static Future<void> deleteWishlistByName(String name) async {
+    final db = await database;
+
+    // Remove the book from the database.
+    await db.delete(
+      'shopping_cart',
+      // Use a `where` clause to delete a specific book.
+      where: 'name = ?',
+      // Pass the book's id as a whereArg to prevent SQL injection.
+      whereArgs: [name],
+    );
+  }
+
   static Future<void> deleteJson(String name) async {
     // Get a reference to the database.
     final db = await database;

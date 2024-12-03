@@ -62,7 +62,7 @@ class _order_pageState extends State<order_page> {
     }
   }
 
-  // Delete the product by name
+  //Delete the product by name
   Future<void> deleteProduct(String productName) async {
     await DatabaseHandler.deleteJson(productName); // Delete from the DB
     setState(() {
@@ -295,7 +295,7 @@ class ProductCard extends StatelessWidget {
                             border: Border.all(color: Colors.redAccent),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Order Cancel",
                               style: TextStyle(
@@ -310,13 +310,13 @@ class ProductCard extends StatelessWidget {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text("Delete Confirmation"),
-                              content: Text(
+                              content: const Text(
                                   "Are you sure you want to delete this product?"),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(
                                       context, false), // Dismiss dialog
-                                  child: Text("No",
+                                  child: const Text("No",
                                       style: TextStyle(color: Colors.red)),
                                 ),
                                 TextButton(
@@ -325,7 +325,7 @@ class ProductCard extends StatelessWidget {
                                     onDelete();
                                     Navigator.pop(context);
                                   },
-                                  child: Text("Yes",
+                                  child: const Text("Yes",
                                       style: TextStyle(color: Colors.green)),
                                 ),
                               ],
@@ -333,11 +333,6 @@ class ProductCard extends StatelessWidget {
                           );
 
                           // If confirmed, delete product and refresh
-                          if (confirm) {
-                            await DatabaseHandler.deleteOrderByName(
-                                name); // Delete product
-                            onDelete(); // Refresh the product list
-                          }
                         },
                       ),
                     ],
