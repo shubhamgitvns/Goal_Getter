@@ -5,8 +5,6 @@
 A To-Do app is a productivity tool designed to help users organize and manage their tasks, reminders, or to-do lists. It provides a structured way for individuals to keep track of their daily activities and responsibilities, ensuring they don’t miss important deadlines or forget essential tasks.
 </h5>
  
-<h1>Components</h1>
-<h2 align="center">The app typically includes the following components:</h2>
 <h3>1. User Interface (UI):</h3>
 <ul>
  <li>Task List Display: A list that shows all the current tasks, typically with titles, descriptions, and due dates.</li>
