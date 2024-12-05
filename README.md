@@ -1,83 +1,63 @@
-<h1 align="center">Goal Getter App</h1>
- <h1>Overview</h1>
- <h5>
-  
-A To-Do app is a productivity tool designed to help users organize and manage their tasks, reminders, or to-do lists. It provides a structured way for individuals to keep track of their daily activities and responsibilities, ensuring they don’t miss important deadlines or forget essential tasks.
-</h5>
- 
-<h3>1. User Interface (UI):</h3>
-<ul>
- <li>Task List Display: A list that shows all the current tasks, typically with titles, descriptions, and due dates.</li>
- <li>Task Inpiut Form:  A form where users can enter details like task title, description, due date, priority, etc.</li>
- <li>Task Categories or Filters: Allows users to filter tasks based on categories (e.g., work, personal) or priority levels.</li>
- <li>Completed Tasks Section: A separate section or view to display completed tasks, giving users a sense of accomplishment.</li>
- <li>Panding Task Section: A Pending section or view to display pending tasks, giving users a sense of accomplishment.</li>
-</ul>
+# Hello, I'm Shubham Maurya 👋
+### Flutter Developer | Frontend Enthusiast
 
- <h3>2. Backend:</h3>
-<ul>
- <li>Database: Stores task information such as task details, completion status, and user data. Firebase or other cloud-based databases are often used.</li>
- <li>Authentication:  If the app includes user accounts, this component allows users to log in using services like Google, Facebook, or email.</li>
- <li>Notifications: Manages push notifications and reminders for scheduled tasks.</li>
-</ul>
+I'm passionate about developing mobile applications that provide seamless user experiences. With hands-on experience in Flutter and Firebase, I love bringing innovative ideas to life through code.
 
- <h3>3. Task Management Logic:</h3>
-<ul>
- <li>CRUD Operations: Core functionality to Create, Read, Update, and Delete tasks.</li>
- <li>Task Status:  Logic to handle marking tasks as completed, pending, or overdue.</li>
- <li>Sorting and Filtering: Helps users sort tasks by date, priority, or category and apply filters for a better view.</li>
-</ul>
+---
 
-<h1>About The App</h1>
-<h5>
- <h5>This Goal Getter app which I have built while using dart/flutter programing language.</h5>
- <h5> In this App, most using Firebase for backend support.
-  Main purpose creating this app to remember the user his goals and meatings.
- </h5>
- <h5>In this app have a mulyple category or filter like category of task and complete , panding task etc.</h5>
- <h5>Attractive UI pages and Ui elements colors choosing such as backgound shadow, hover buttons border like this.</h5>
+## 🚀 My Tech Stack
 
- 
-<h1>Features</h1>
-<ul>
-  <li>Login with Google</li>
- <li>Database handle with Firebase</li>
- <li>notifications and reminders</li>
- <li>Multi Filter Options </li>
- <li>Divide Categories of tasks</li>
- <li>Multiple Pages</li>
-<li>Good UI</li>
-</ul>
-<h1>Used Technology</h1>
-<li>Flutter</li>
-<li>Dart</li>
-<li>Firebase</li>
-<h1>Supporting Plateform</h1>
-<li>Android</li>
-<li>Windows</li>
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0B6E99?style=flat&logo=dart&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
 
-<h1>Screen shorts</h1>
- 
-![src1 png](https://github.com/user-attachments/assets/3b348f31-db0a-476b-b1b6-6f4f9343d407)
-<br>
-![src2 png](https://github.com/user-attachments/assets/8083fe56-8dad-4983-86f5-f4f9bd64061e)
-<br>
-![src3 png](https://github.com/user-attachments/assets/6412caa1-04e9-4003-8ba0-962b94af16ec)
-<br>
-![src4 png](https://github.com/user-attachments/assets/21901e71-2735-43c3-9dac-37bcccd684a4)
-<br>
-![src5 png](https://github.com/user-attachments/assets/e83f539c-1384-4c1a-a103-590da7b9a00d)
-<br>
-![src6 png](https://github.com/user-attachments/assets/f7405787-6788-4ddd-b48c-c899ad4c47d4)
-<br>
-![src7png](https://github.com/user-attachments/assets/46af4006-c825-4d3f-a521-68ba402161a6)
-<br>
-![src8](https://github.com/user-attachments/assets/25531318-2a42-48e8-8310-ca9ec2b7f42e)
-<br>
-![src9](https://github.com/user-attachments/assets/8c2592ff-6a01-4dc0-a365-13ce69c82138)
-<br>
-![src10](https://github.com/user-attachments/assets/9a4ee12d-d743-4615-a383-eb7bc0a3c578)
-<br>
-![src11](https://github.com/user-attachments/assets/bff156b5-0c55-4f5e-857d-066d6dab6192)
+---
 
- 
+## 📝 Projects
+
+### 🌟 [Goal Getter App](https://github.com/shubhamgitvns/Goal_Getter)
+- **Description**: A productivity tool designed to help users organize and manage tasks, reminders, and to-do lists, ensuring that no important deadlines are missed.
+- **Tech**: Flutter, Firebase
+
+### 🌟 [LTS Solution App](https://github.com/shubhamgitvns/LTSS)
+- **Description**: A multi-utility app offering services like online transactions, recharges, gas bookings, and train bookings—all in one place.
+- **Tech**: Flutter, Figma, .NET, C#
+
+### 🌟 [Quiz Programming App](https://github.com/shubhamgitvns/Quiz-Programming-Test)
+- **Description**: An engaging quiz app designed to test knowledge on programming concepts or general knowledge topics.
+- **Tech**: Flutter, REST API
+
+### 🌟 [Musical Instrument App](https://github.com/shubhamgitvns/Musical-Instrument-App)
+- **Description**: A virtual app that simulates playing traditional musical instruments like piano and drums on a digital platform.
+- **Tech**: Flutter/Dart
+
+### 🌟 [Tic Tac Toe App](https://github.com/shubhamgitvns/Tic-Tac-Toe)
+- **Description**: A digital version of the classic Tic Tac Toe game designed for a fun and interactive user experience.
+- **Tech**: Flutter/Dart
+
+---
+
+## 🌱 Currently Learning
+- **Advanced Flutter**: Exploring animations and advanced state management techniques.
+- **Backend Development**: Gaining proficiency in JavaScript and Node.js.
+
+---
+
+## 🏆 Achievements
+- Completed **6-month internship** in app development with hands-on experience in real-world projects.
+
+---
+
+## 📫 Let's Connect
+- **LinkedIn**: [Shubham Maurya](https://www.linkedin.com/in/shubham-maurya-905262247/)
+- **Email**: shubhammaurya10092002@gmail.com
+
+---
+
+## ⚡ Fun Fact
+I enjoy long-distance bike riding during my free time, exploring new routes and challenges.
+
+---
+
