@@ -176,22 +176,12 @@ class DatabaseHandler {
     );
   }
 
-  // Delete product by name
-  static Future<void> deleteOrderByName(String productName) async {
-    if (database == null) {
-      throw Exception("Database not initialized");
-    }
-    await database!.delete(
-      'product_order',
-      where: 'name = ?',
-      whereArgs: [productName],
-    );
-  }
+  // Delete the product wish list
 
   static Future<void> deleteWishlistByName(String name) async {
     final db = await database;
 
-    // Remove the book from the database.
+    // Delete the product order list
     await db.delete(
       'shopping_cart',
       // Use a `where` clause to delete a specific book.

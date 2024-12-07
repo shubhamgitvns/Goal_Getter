@@ -60,13 +60,16 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.home_filled,
-                    color: _selectedIndex == 0 ? Colors.green : Colors.grey,
+                    color: _selectedIndex == 0
+                        ? Colors.lightBlue.shade200
+                        : Colors.grey,
                   ),
                   Text(
                     "Home",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 0 ? Colors.green : Colors.grey,
+                      color:
+                          _selectedIndex == 0 ? Colors.lightBlue : Colors.grey,
                     ),
                   ),
                 ],

@@ -21,9 +21,11 @@ class _HomePageState extends State<HomePage> {
   String _searchKeyword = '';
 
   final List<String> _sliderImages = [
-    "https://shantipursaree.com/wp-content/uploads/2024/06/Red-And-White-Modern-Wedding-Season-Offer-Instagram-Post.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo8fq6Mkhx1yGInuZoPiVBvN0hy1sw7fYsvQ&s",
-    "https://www.samyakk.com/blog/wp-content/uploads/2024/01/Kanchipuram-Saree-Mobile01-Copy.jpg",
+    "images/banner.png",
+    "images/banneer_2.png",
+    "images/lehnga_1.png",
+    "images/banner_3.png",
+    "images/lehnga_2.png"
   ];
   late PageController _pageController;
   late Timer _timer;
@@ -109,27 +111,30 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 50),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              categoryItem(
-                                "Lehenga set",
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1riobDe7UUaUwHOrWnwmx-d5M6NjkTGg7yjdEhfef3wlki7txX0GFi6YLCG1KxyZPNYk&usqp=CAU",
-                                LehengaPage(),
-                              ),
-                              categoryItem(
-                                "Kurti set",
-                                "https://www.wholesaletextile.in/product-img/Banwery-Pankh-Ladies-Kurti-Cot-1623224100.jpeg",
-                                KurtiPage(),
-                              ),
-                              categoryItem(
-                                "Kids set",
-                                "https://cdn.shopify.com/s/files/1/0086/0150/1792/files/Girls_Clothing_-_Kidstudio.jpg?v=1600863380",
-                                KidsPage(),
-                              ),
-                            ],
+                        Container(
+                          color: Colors.lightBlue.shade50,
+                          child: SizedBox(
+                            height: 110,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                categoryItem(
+                                  "Lehenga set",
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1riobDe7UUaUwHOrWnwmx-d5M6NjkTGg7yjdEhfef3wlki7txX0GFi6YLCG1KxyZPNYk&usqp=CAU",
+                                  LehengaPage(),
+                                ),
+                                categoryItem(
+                                  "Kurti set",
+                                  "https://www.wholesaletextile.in/product-img/Banwery-Pankh-Ladies-Kurti-Cot-1623224100.jpeg",
+                                  KurtiPage(),
+                                ),
+                                categoryItem(
+                                  "Kids set",
+                                  "https://cdn.shopify.com/s/files/1/0086/0150/1792/files/Girls_Clothing_-_Kidstudio.jpg?v=1600863380",
+                                  KidsPage(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -138,10 +143,19 @@ class _HomePageState extends State<HomePage> {
                             controller: _searchController,
                             decoration: InputDecoration(
                               hintText: 'Search by name or category',
-                              prefixIcon: const Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                              hintStyle: TextStyle(color: Colors.grey.shade400),
+                              prefixIcon: Icon(
+                                Icons.search,
                               ),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                      color: Colors.lightBlue.shade100)),
                             ),
                           ),
                         ),
@@ -157,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                                     const EdgeInsets.symmetric(horizontal: 5.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
+                                  child: Image.asset(
                                     _sliderImages[index],
                                     fit: BoxFit.fill,
                                   ),
