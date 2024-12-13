@@ -62,7 +62,7 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                     Icons.home_filled,
                     color: _selectedIndex == 0
                         ? Colors.lightBlue.shade200
-                        : Colors.grey,
+                        : Colors.grey.shade300,
                   ),
                   Text(
                     "Home",
@@ -85,13 +85,16 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.padding,
-                    color: _selectedIndex == 1 ? Colors.green : Colors.grey,
+                    color: _selectedIndex == 1
+                        ? Colors.lightBlue.shade200
+                        : Colors.grey.shade300,
                   ),
                   Text(
                     "Wish List",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 1 ? Colors.green : Colors.grey,
+                      color:
+                          _selectedIndex == 1 ? Colors.lightBlue : Colors.grey,
                     ),
                   ),
                 ],
@@ -107,13 +110,16 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.shopping_bag,
-                    color: _selectedIndex == 2 ? Colors.green : Colors.grey,
+                    color: _selectedIndex == 2
+                        ? Colors.lightBlue.shade200
+                        : Colors.grey.shade300,
                   ),
                   Text(
                     "Order",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 2 ? Colors.green : Colors.grey,
+                      color:
+                          _selectedIndex == 2 ? Colors.lightBlue : Colors.grey,
                     ),
                   ),
                 ],
@@ -129,13 +135,16 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                 children: [
                   Icon(
                     Icons.person,
-                    color: _selectedIndex == 3 ? Colors.green : Colors.grey,
+                    color: _selectedIndex == 3
+                        ? Colors.lightBlue.shade200
+                        : Colors.grey.shade300,
                   ),
                   Text(
                     "Profile",
                     style: TextStyle(
                       fontSize: 10,
-                      color: _selectedIndex == 3 ? Colors.green : Colors.grey,
+                      color:
+                          _selectedIndex == 3 ? Colors.lightBlue : Colors.grey,
                     ),
                   ),
                 ],

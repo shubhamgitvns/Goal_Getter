@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class App_Text {
   static String json_data = "String";
   static String new_version = "0";
@@ -8,4 +10,6 @@ class App_Text {
   static int id = 1;
 
   static String connection = "";
+
+  static Color app_bar = Colors.lightBlue.shade50;
 }

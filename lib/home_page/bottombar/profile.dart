@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todocreater/app_text_var.dart';
 
 import '../../utilittes.dart';
 import 'bottombar.dart';
@@ -12,7 +13,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: App_Text.app_bar,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -20,12 +21,12 @@ class ProfilePage extends StatelessWidget {
             // Profile Header
             Container(
               // color: Colors.green.shade300,
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundColor: Colors.green.shade200,
+                    backgroundColor: Colors.blue.shade100,
                     //   backgroundImage: NetworkImage(
                     //       'https://via.placeholder.com/150'), // Dummy profile picture
                   ),
@@ -35,7 +36,7 @@ class ProfilePage extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -51,8 +52,12 @@ class ProfilePage extends StatelessWidget {
 
             // Account Options
             ListTile(
-              leading: const Icon(Icons.shopping_bag, color: Colors.green),
-              title: const Text('Order History'),
+              leading:
+                  Icon(Icons.shopping_bag, color: Colors.lightBlue.shade300),
+              title: const Text(
+                'Order History',
+                style: TextStyle(color: Colors.grey),
+              ),
               onTap: () {
                 Navigator.push(
                     context,
@@ -64,8 +69,11 @@ class ProfilePage extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.favorite, color: Colors.green),
-              title: const Text('Wishlist'),
+              leading: Icon(Icons.favorite, color: Colors.lightBlue.shade300),
+              title: const Text(
+                'Wishlist',
+                style: TextStyle(color: Colors.grey),
+              ),
               onTap: () {
                 Navigator.push(
                     context,
@@ -74,6 +82,9 @@ class ProfilePage extends StatelessWidget {
                               index: 1,
                             )));
               },
+            ),
+            const SizedBox(
+              height: 30,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todocreater/app_text_var.dart';
 
 import '../../jsonclass.dart';
 import '../../localdb.dart';
@@ -83,19 +84,31 @@ class _WishlistState extends State<Wishlist> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("SareeHub"),
+          title: const Text("Wish List"),
+          backgroundColor: App_Text.app_bar,
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(50.0),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search by name or category',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search by name or category',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
+                    prefixIcon: Icon(
+                      Icons.search,
+                    ),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey.shade300)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: Colors.lightBlue.shade100)),
                   ),
                 ),
               ),
@@ -282,7 +295,9 @@ class ProductCard extends StatelessWidget {
                     "₹ $price",
                     style: TextStyle(color: Colors.green.shade700),
                   ),
-                  const SizedBox(height: 4),
+                  Divider(
+                    color: Colors.grey.shade300,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -224,7 +224,7 @@ class _SignInDemoState extends State<SignInDemo> {
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Colors.lightBlue,
                   ),
                 ),
               ],
@@ -240,7 +240,7 @@ class _SignInDemoState extends State<SignInDemo> {
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.grey,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
@@ -253,7 +253,7 @@ class _SignInDemoState extends State<SignInDemo> {
               width: 350,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.teal),
+                border: Border.all(color: Colors.lightBlue),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -269,6 +269,7 @@ class _SignInDemoState extends State<SignInDemo> {
                   CircleAvatar(
                     radius: 20,
                     backgroundImage: AssetImage('images/google.png'),
+                    backgroundColor: Colors.white,
                   ),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:todocreater/app_text_var.dart';
 import 'package:todocreater/home_page/kids_page.dart';
 import 'package:todocreater/home_page/kurti_page.dart';
 import 'package:todocreater/home_page/lehenga_page.dart';
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Container(
-                          color: Colors.lightBlue.shade50,
+                          color: App_Text.app_bar,
                           child: SizedBox(
                             height: 110,
                             child: Row(

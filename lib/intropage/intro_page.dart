@@ -98,11 +98,11 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   child: Icon(
                     Icons.shopping_cart,
                     size: 120,
-                    color: Colors.green.shade300,
+                    color: Colors.lightBlue.shade200,
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // Animated welcome text
               FadeTransition(
@@ -112,7 +112,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green.shade700,
+                    color: Colors.grey.shade600,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -124,8 +124,8 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   "Discover the best products at unbeatable prices.",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.green.shade600,
-                    fontWeight: FontWeight.w300,
+                    color: Colors.grey.shade400,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -138,14 +138,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                 builder: (context, child) {
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green.shade400,
+                      backgroundColor: Colors.lightBlue.shade300,
                       padding:
                           EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             20), // Rounded corners for the button
                       ),
-                      shadowColor: Colors.greenAccent,
+                      shadowColor: Colors.grey,
                       elevation: 5, // Add shadow to button for 3D effect
                     ),
                     onPressed: () async {
@@ -153,7 +153,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                       print(vnoOnline);
                       if (vnoOnline == -1) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("No internet connection."),
                           ),
                         );

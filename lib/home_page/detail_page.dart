@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todocreater/app_text_var.dart';
 
 import '../jsonclass.dart';
 import '../localdb.dart';
@@ -25,6 +26,7 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Details"),
+        backgroundColor: App_Text.app_bar,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -42,7 +44,7 @@ class DetailPage extends StatelessWidget {
                   child: Container(
                     height: 50,
                     width: 100,
-                    color: Colors.green,
+                    color: Colors.lightBlue.shade300,
                     child: const Center(
                         child: Text(
                       "Buy now",
@@ -68,12 +70,12 @@ class DetailPage extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: Colors.green)),
+                        border: Border.all(color: Colors.lightBlue)),
                     child: const Center(
                         child: Text(
                       "Add card",
                       style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                          color: Colors.lightBlue, fontWeight: FontWeight.bold),
                     )),
                   ),
                   onTap: () async {
@@ -88,10 +90,10 @@ class DetailPage extends StatelessWidget {
                       await DatabaseHandler.insertShopping_card(javabook);
                       // Show success message
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content:
-                              Text("Product successfully added to wishlist!"),
-                          backgroundColor: Colors.green,
+                        SnackBar(
+                          content: const Text(
+                              "Product successfully added to wishlist!"),
+                          backgroundColor: Colors.lightBlue.shade200,
                         ),
                       );
                     } catch (e) {
@@ -107,7 +109,7 @@ class DetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
