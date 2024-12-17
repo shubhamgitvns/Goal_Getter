@@ -42,7 +42,6 @@ A To-Do app is a productivity tool designed to help users organize and manage th
 <h1>Supporting Plateform</h1>
 <li>Android</li>
 <li>Windows</li>
-<li>Screen shorts</li>
 
 <h1>Screen Shorts</h1>
 
